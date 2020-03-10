@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server":"nodemon server.js"
+    "server": "nodemon server.js"
   },
   "author": "doaa",
   "license": "ISC",
@@ -14,11 +14,19 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.2",
+    "mongoose": "^5.9.4",
     "passport-jwt": "^4.0.0",
     "validator": "^12.2.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Demam20/Devconnector.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Demam20/Devconnector/issues"
+  },
+  "homepage": "https://github.com/Demam20/Devconnector#readme"
 }

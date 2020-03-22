@@ -22,13 +22,5 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Demam20/Snapshare.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Demam20/Snapshare/issues"
-  },
-  "homepage": "https://github.com/Demam20/Snapshare#readme"
+  }
 }

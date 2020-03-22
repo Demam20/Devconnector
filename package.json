@@ -1,5 +1,5 @@
 {
-  "name": "devconnector",
+  "name": "snapshare",
   "version": "1.0.0",
   "description": "Soical network for developers",
   "main": "server.js",
@@ -25,10 +25,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Demam20/Devconnector.git"
+    "url": "git+https://github.com/Demam20/Snapshare.git"
   },
   "bugs": {
-    "url": "https://github.com/Demam20/Devconnector/issues"
+    "url": "https://github.com/Demam20/Snapshare/issues"
   },
-  "homepage": "https://github.com/Demam20/Devconnector#readme"
+  "homepage": "https://github.com/Demam20/Snapshare#readme"
 }

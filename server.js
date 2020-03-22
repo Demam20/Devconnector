@@ -34,5 +34,5 @@ app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 
-const port = 8025;
+const port = 8030;
 app.listen(port, () => console.log(`Server running on port ${port}`));

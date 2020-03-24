@@ -1,5 +1,5 @@
 {
-  "name": "devconnector",
+  "name": "snapshare",
   "version": "1.0.0",
   "description": "Soical network for developers",
   "main": "server.js",
@@ -7,28 +7,21 @@
     "start": "node server.js",
     "server": "nodemon server.js"
   },
-  "author": "doaa",
+  "author": "Team4",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
+    "express-load": "^1.1.16",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.4",
+    "mongoose": "^5.9.5",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "validator": "^12.2.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Demam20/Devconnector.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Demam20/Devconnector/issues"
-  },
-  "homepage": "https://github.com/Demam20/Devconnector#readme"
+  }
 }

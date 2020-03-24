@@ -2,19 +2,25 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const profileSchema = new Schema({
-  Avatar: {
+  UserID: {
     type: Schema.Types.ObjectId,
     ref: 'users'
+  },
 
+  Avatar: {
+    type: String
+  },
+  Username: {
+    type: String
+  },
+  Email: {
+    type: String
   },
   Name: {
     type: String,
     required: true
   },
-  Username: {
-    type: Schema.Types.ObjectId,
-    ref: 'users'
-  },
+  
   Website: {
     type: String
   },
@@ -22,10 +28,7 @@ const profileSchema = new Schema({
     type: String
 
   },
-  Email: {
-    type: Schema.Types.ObjectId,
-    ref: 'users'
-  },
+  
   Phoneno: {
     type: Number
   },
@@ -36,18 +39,18 @@ const profileSchema = new Schema({
     type: Boolean,
     default: true
   },
-  ChangePassword: {
-    oldpwd: {
-      type: Schema.Types.ObjectId,
-      ref: 'users',
-      required: true
-    },
-    newpwd: {
-      type: String,
-      required: true
-    }
+  // ChangePassword: {
+  //   oldpwd: {
+  //     type: Schema.Types.ObjectId,
+  //     ref: 'users',
+  //     required: true
+  //   },
+  //   newpwd: {
+  //     type: String,
+  //     required: true
+  //   }
     
-  },
+  // },
   Subscription: {
     feedbackemails: {
       type: Boolean,
@@ -79,3 +82,5 @@ const profileSchema = new Schema({
     }
   }
 })
+
+module.exports = Profile = mongoose.model('profile',profileSchema)

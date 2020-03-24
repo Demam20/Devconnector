@@ -1,109 +1,86 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+
 const profileSchema = new Schema({
-  user:{
-    type:Schema.Types.ObjectId,
-    ref :'users'
+  UserID: {
+    type: Schema.Types.ObjectId,
+    ref: 'users'
   },
-  handle:{
-    type: String,
-    required: true,
-    max: 40
-  },
-  company:{
+
+  Avatar: {
     type: String
   },
-  website:{
+  Username: {
     type: String
   },
-  location: {
+  Email: {
     type: String
   },
-  status: {
+  Name: {
     type: String,
     required: true
   },
-  skills: {
-    type:[String],
-    required:true
-  },
-  bio:{
-    type:String
-  },
-  githubusername:{
+  
+  Website: {
     type: String
   },
-  experience:[
-    {
-      title:{
-        type: String,
-        required:true
-      },
-      company:{
-        type:String,
-        required:true
-      },
-      location:{
-        type:String
-      },
-      from:{
-        type: Date,
-        required:true
-      },
-      to:{
-        type: Date,
-      },
-      current:{
-        type:Boolean,
-        default:false
-      },
-      description:{
-        type:String
-      },
-    }
-  ],
-  education:[
-    {
-      school:{
-        type:String,
-        required:true
-      },
-      degree:{
-        type:String,
-        required:true
-      },
-      fieldofstudy:{
-        type:String,
-        required:true
-      },
-      from:{
-        type: Date,
-        required:true
-      },
-      to:{
-        type: Date
-      }
+  Bio: {
+    type: String
 
+  },
+  
+  Phoneno: {
+    type: Number
+  },
+  Gender: {
+    type: String
+  },
+  SimilarAccountSuggestion: {
+    type: Boolean,
+    default: true
+  },
+  // ChangePassword: {
+  //   oldpwd: {
+  //     type: Schema.Types.ObjectId,
+  //     ref: 'users',
+  //     required: true
+  //   },
+  //   newpwd: {
+  //     type: String,
+  //     required: true
+  //   }
+    
+  // },
+  Subscription: {
+    feedbackemails: {
+      type: Boolean,
+      default: true
+    },
+    reminderemails: {
+      type: Boolean,
+      default: true
+    },
+    productemails: {
+      type: Boolean,
+      default: true
+    },
+    newsemails: {
+      type: Boolean,
+      default: true
+    },
+    shoppingbrandemails: {
+      type: Boolean,
+      default: true
+    },
+    shoppingbagemails: {
+      type: Boolean,
+      default: true
+    },
+    smsmessages: {
+      type: Boolean,
+      default: true
     }
-  ],
-  social:{
-    youtub:{
-      type:String
-    },
-    twitter:{
-      type:String
-    },
-    facebook:{
-      type:String
-    },
-    linkedin:{
-      type:String
-    },
-    instagram:{
-      type:String
-    }
-
   }
-});
+})
 
-module.exports = Profile = mongoose.model('profile', profileSchema); 
+module.exports = Profile = mongoose.model('profile',profileSchema)

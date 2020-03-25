@@ -11,8 +11,8 @@ const Profile = require('../../models/Profile')
 //loading user model
 const User = require('../../models/User')
 //loading validation
-//const validateProfileInput = require('../../validation/profile')
-
+const validateProfileInput = require('../../validation/profile')
+const validateChangePwd = require('../../validation/changepassword')
 //@GET api/profile
 //@desc Get current user's profile
 //@access Private
@@ -84,12 +84,19 @@ router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    console.log(req.user.password)
+    const {errors, isValid} = validateProfileInput(req.body)
+    //check validation
+    if(!isValid) {
+      //return any errors with 400 status
+      return res.status(400).json(errors)
+    }
 
     const profileFields = {}
     profileFields.UserID = req.user.id;
-
-
     profileFields.Email = req.user.email;
+    profileFields.ChangePassword ={}
+    profileFields.ChangePassword.oldpwd = req.user.password;
     profileFields.Username = (req.body.username) ? req.body.username : req.user.name;
     profileFields.Avatar = (req.body.avatar) ? req.body.avatar : req.user.avatar
     if (req.body.name) profileFields.Name = req.body.name;
@@ -98,16 +105,15 @@ router.post(
     if (req.body.phoneno) profileFields.Phoneno = req.body.phoneno;
     if (req.body.gender) profileFields.Gender = req.body.gender;
     if (req.body.similaraccountsuggestion) profileFields.SimilarAccountSuggestion = req.body.similaraccountsuggestion;
-
-
-    //console.log(profileFields)
+    
+    console.log(profileFields)
 
 
     Profile.findOne({ "UserID": req.user.id }).then(profile => {
 
       var promises = [];
       if (profile) {
-        console.log("found a matching profile")
+        console.log(profile)
         promises.push(Profile.findOneAndUpdate(
           { "UserID": req.user.id },
           { "$set": profileFields },
@@ -139,8 +145,6 @@ router.post(
     })
   })
 
-//@route POST 
-
 //@route DELETE api/profile
 //@desc Delete user and profile
 //@access Private
@@ -158,37 +162,48 @@ router.delete(
 //@desc Change user password
 //@access Private
 router.post(
-  '/changepwd',
+  '/changepassword',
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+
     const { errors, isValid } = validateChangePwd(req.body)
     if (!isValid) {
       return res.status(400).json(errors)
     }
+
     Profile.findOne({ UserID: req.user.id }).then(profile => {
       if (!profile) {
         return res.status(404).json({ status: "Profile not found" })
       }
-      const newPassword = {
-        currentPwd: req.body.currentPwd,
-        newPwd: req.body.newPwd
-      }
-
-      bcrypt.compare(req.body.currentPwd, User.findOne({ "_id": req.user.id }).password)
+      User.findOne({ "_id": req.user.id }).then(userprofile => {
+        console.log(userprofile)
+        console.log(userprofile.password)
+        profile.ChangePassword.oldpwd = userprofile.password
+        bcrypt.compare(req.body.currentPwd, userprofile.password)
         .then(isMatch => {
+          if(!isMatch) console.log("is not a match")
+
           if (isMatch) {
-            //changing the password in the User table and updating the token
-            User.findOneAndUpdate(
-              { "_id": req.user.id },
-              { "$set": { "password": req.body.newPwd } },
-              { new: true }
-            )
+            console.log("we are here")
+
+            bcrypt.hash(req.body.newpwd, 10, (err, hash) => {
+              if (err) {
+                console.error(err)
+                return
+              }
+              console.log("this is actual hash " + hash)
+              userprofile.password = hash
+              userprofile.save()
+              profile.ChangePassword.newpwd = hash
+              profile.save()
+            })
+
             //Password is matched
             //payload
             const payload = {
-              id: user.id,
-              name: user.name,
-              avatar: user.avatar
+              id: req.user.id,
+              name: req.user.name,
+              avatar: req.user.avatar
             };
             //sign token
             jwt.sign(
@@ -203,8 +218,9 @@ router.post(
               })
           }
         })
-      profile.ChangePassword = newPassword
-      profile.save().then(profile => res.json(profile))
+
+      })
+     
     })
   })
 //@route POST api/profile/subscription

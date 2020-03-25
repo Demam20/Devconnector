@@ -4,24 +4,19 @@ const isEmpty = require('./is-empty');
 module.exports = function validateProfileInput(data) {
   let errors = {};
 
-  data.handle = !isEmpty(data.handle) ? data.handle : '';
-  data.status = !isEmpty(data.status) ? data.status : '';
-  data.skills = !isEmpty(data.skills) ? data.skills : '';
-
-  if (!Validator.isLength(data.handle, { min: 2, max: 40 })) {
-    errors.handle = 'Handle needs to between 2 and 40 characters';
+  data.name = !isEmpty(data.name) ? data.name : '';
+  data.website = !isEmpty(data.website) ? data.website : '';
+  data.bio = !isEmpty(data.bio) ? data.bio : '';
+  data.phoneno = !isEmpty(data.phoneno) ? data.phoneno : '';
+  data.gender = !isEmpty(data.gender) ? data.gender : '';
+  data.newpwd = !isEmpty(data.newpwd) ? data.newpwd : '';
+  
+  if (!Validator.isLength(data.name, { min: 2, max: 40 })) {
+    errors.name = 'Name needs to between 2 and 40 characters';
   }
 
-  if (Validator.isEmpty(data.handle)) {
-    errors.handle = 'Profile handle is required';
-  }
-
-  if (Validator.isEmpty(data.status)) {
-    errors.status = 'Status field is required';
-  }
-
-  if (Validator.isEmpty(data.skills)) {
-    errors.skills = 'Skills field is required';
+  if (Validator.isEmpty(data.name)) {
+    errors.name = 'Name is required';
   }
 
   if (!isEmpty(data.website)) {

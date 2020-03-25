@@ -6,7 +6,6 @@ const profileSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
-
   Avatar: {
     type: String
   },
@@ -20,15 +19,12 @@ const profileSchema = new Schema({
     type: String,
     required: true
   },
-  
   Website: {
     type: String
   },
   Bio: {
     type: String
-
   },
-  
   Phoneno: {
     type: Number
   },
@@ -46,9 +42,8 @@ const profileSchema = new Schema({
     },
     newpwd: {
       type: String,
-      required: true
-    }
     
+    }
   },
   Subscription: {
     feedbackemails: {

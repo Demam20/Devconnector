@@ -1,10 +1,10 @@
-
-
-
-
-
+const express = require('express');
+const router = express.Router();
 const mongoose = require('mongoose')
 const passport = require('passport')
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const keys = require('../../config/keys');
 
 //loading profile model
 const Profile = require('../../models/Profile')
@@ -18,20 +18,20 @@ const User = require('../../models/User')
 //@access Private
 router.get(
   "/",
-  passport.authenticate("jwt", {session: false}),
-  (req,res) => {
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
     const errors = {}
 
-    Profile.findOne({UserID: req.user.id})
-  
-    .then(profile => {
-      if(!profile) {
-        errors.noprofile = "There is no profile for this user"
-        return res.status(404).json(errors)
-      }
-      res.json(profile)
-    })
-    .catch(err=> res.status(404).json(err))
+    Profile.findOne({ UserID: req.user.id })
+
+      .then(profile => {
+        if (!profile) {
+          errors.noprofile = "There is no profile for this user"
+          return res.status(404).json(errors)
+        }
+        res.json(profile)
+      })
+      .catch(err => res.status(404).json(err))
 
   }
 )
@@ -41,18 +41,18 @@ router.get(
 //@access Public
 router.get(
   "/all",
-  (req,res) => {
+  (req, res) => {
     const errors = {}
 
     Profile.find()
-    .then(profiles => {
-      if(!profiles) {
-        errors.noprofile = "There are no profiles"
-        return res.status(404).json(errors)
-      }
-      res.json(profiles)
-    })
-    .catch(err=> res.status(404).json(err))
+      .then(profiles => {
+        if (!profiles) {
+          errors.noprofile = "There are no profiles"
+          return res.status(404).json(errors)
+        }
+        res.json(profiles)
+      })
+      .catch(err => res.status(404).json(err))
   }
 )
 
@@ -99,14 +99,7 @@ router.post(
     if (req.body.gender) profileFields.Gender = req.body.gender;
     if (req.body.similaraccountsuggestion) profileFields.SimilarAccountSuggestion = req.body.similaraccountsuggestion;
 
-    profileFields.Subscription = {}
-    if (req.body.feedbackemails) profileFields.Subscription.feedbackemails = req.body.feedbackemails
-    if (req.body.reminderemails) profileFields.Subscription.reminderemails = req.body.reminderemails
-    if (req.body.productemails) profileFields.Subscription.productemails = req.body.productemails
-    if (req.body.newsemails) profileFields.Subscription.newsemails = req.body.newsemails
-    if (req.body.shoppingbrandemails) profileFields.Subscription.shoppingbrandemails = req.body.shoppingbrandemails
-    if (req.body.shoppingbagemails) profileFields.Subscription.shoppingbagemails = req.body.shoppingbagemails
-    if (req.body.smsmessages) profileFields.Subscription.smsmessages = req.body.smsmessages
+
     //console.log(profileFields)
 
 
@@ -120,7 +113,7 @@ router.post(
           { "$set": profileFields },
           { new: true }
         ));
-        
+
         if (req.body.avatar) {
           console.log("found a user")
           promises.push(User.findOneAndUpdate(
@@ -138,7 +131,7 @@ router.post(
         }
 
         Promise.all(promises)
-          .then(result => res.json({"status": "Success"}));
+          .then(result => res.json({ "status": "Success" }));
       }
       else {
         new Profile(profileFields).save().then(profile => res.json(profile))
@@ -146,3 +139,96 @@ router.post(
     })
   })
 
+//@route POST 
+
+//@route DELETE api/profile
+//@desc Delete user and profile
+//@access Private
+router.delete(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOneAndRemove({ UserID: req.user.id }).then(() => {
+      User.findOneAndRemove({ _id: req.user.id }).then(() => res.json({ success: true }))
+    })
+  }
+)
+
+//@route POST api/profile/changepassword
+//@desc Change user password
+//@access Private
+router.post(
+  '/changepwd',
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateChangePwd(req.body)
+    if (!isValid) {
+      return res.status(400).json(errors)
+    }
+    Profile.findOne({ UserID: req.user.id }).then(profile => {
+      if (!profile) {
+        return res.status(404).json({ status: "Profile not found" })
+      }
+      const newPassword = {
+        currentPwd: req.body.currentPwd,
+        newPwd: req.body.newPwd
+      }
+
+      bcrypt.compare(req.body.currentPwd, User.findOne({ "_id": req.user.id }).password)
+        .then(isMatch => {
+          if (isMatch) {
+            //changing the password in the User table and updating the token
+            User.findOneAndUpdate(
+              { "_id": req.user.id },
+              { "$set": { "password": req.body.newPwd } },
+              { new: true }
+            )
+            //Password is matched
+            //payload
+            const payload = {
+              id: user.id,
+              name: user.name,
+              avatar: user.avatar
+            };
+            //sign token
+            jwt.sign(
+              payload,
+              keys.secretOrKey,
+              { expiresIn: 3600 },
+              (err, token) => {
+                res.json({
+                  success: true,
+                  token: 'Bearer ' + token
+                })
+              })
+          }
+        })
+      profile.ChangePassword = newPassword
+      profile.save().then(profile => res.json(profile))
+    })
+  })
+//@route POST api/profile/subscription
+//@desc Add subscriptions
+//@access Private
+router.post(
+  '/subscription',
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ UserID: req.user.id }).then(profile => {
+      profileFields.Subscription = {}
+      if (req.body.feedbackemails) profileFields.Subscription.feedbackemails = req.body.feedbackemails
+      if (req.body.reminderemails) profileFields.Subscription.reminderemails = req.body.reminderemails
+      if (req.body.productemails) profileFields.Subscription.productemails = req.body.productemails
+      if (req.body.newsemails) profileFields.Subscription.newsemails = req.body.newsemails
+      if (req.body.shoppingbrandemails) profileFields.Subscription.shoppingbrandemails = req.body.shoppingbrandemails
+      if (req.body.shoppingbagemails) profileFields.Subscription.shoppingbagemails = req.body.shoppingbagemails
+      if (req.body.smsmessages) profileFields.Subscription.smsmessages = req.body.smsmessages
+
+      profile.Subscription = profileFields.Subscription
+      profile.save().then(profile => res.json(profile))
+
+    })
+  }
+)
+
+module.exports = router;

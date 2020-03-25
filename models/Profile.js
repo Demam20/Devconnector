@@ -39,18 +39,17 @@ const profileSchema = new Schema({
     type: Boolean,
     default: true
   },
-  // ChangePassword: {
-  //   oldpwd: {
-  //     type: Schema.Types.ObjectId,
-  //     ref: 'users',
-  //     required: true
-  //   },
-  //   newpwd: {
-  //     type: String,
-  //     required: true
-  //   }
+  ChangePassword: {
+    oldpwd: {
+      type: String,
+      required: true
+    },
+    newpwd: {
+      type: String,
+      required: true
+    }
     
-  // },
+  },
   Subscription: {
     feedbackemails: {
       type: Boolean,

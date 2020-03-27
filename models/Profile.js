@@ -45,6 +45,16 @@ const profileSchema = new Schema({
     
     }
   },
+  bookmarks:[{
+      POSTID:{
+        type:Schema.Types.ObjectId,
+        ref:'posts'
+      },
+      date:{
+        type:Date,
+        default: Date.now
+      }
+  }],
   Subscription: {
     feedbackemails: {
       type: Boolean,

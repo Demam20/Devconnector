@@ -10,6 +10,8 @@ const keys = require('../../config/keys');
 const Profile = require('../../models/Profile')
 //loading user model
 const User = require('../../models/User')
+//loading post model
+const Post = require('../../models/Post');
 //loading validation
 const validateProfileInput = require('../../validation/profile')
 const validateChangePwd = require('../../validation/changepassword')
@@ -245,6 +247,47 @@ router.post(
 
     })
   }
+)
+// @route   GET api/profile/bookmarks/all
+// @desc    Get bookmarked posts
+// @access  Private
+
+router.get ('/bookmarks/all', passport.authenticate("jwt",{session:false}),
+(req,res) =>{
+  const errors = {}
+  Profile.findOne({UserID:req.user.id})
+  .then(profile => {
+    if(!profile.bookmarks || profile.bookmarks.length === 0)
+    {
+            errors.nobookmarks = "no bookmarked posts"
+            return res.status(404).json(errors);
+    }
+    var bookmarkedposts =[];
+    console.log("inside bookmark route" + profile.bookmarks);
+    var promises = []
+   for(let bookmark of profile.bookmarks) {
+      console.log("inside for loop " + bookmark.POSTID)
+      var promise= Post.findById(bookmark.POSTID)
+      .then( post =>{
+      if(!post){
+          //console.log("got empty post");
+          bookmarkedposts.push({postid: bookmark.POSTID, status: "post has been deleted"});
+        }
+        else
+        {
+            //console.log("got post" + JSON.stringify(post));
+            bookmarkedposts.push(post);
+        }
+      })
+      promises.push(promise);
+      //console.log("after each loop"+ JSON.stringify(bookmarkedposts));
+    }
+
+    Promise.all(promises).then(result =>{
+    return res.json(bookmarkedposts);
+    })
+  } )
+}
 )
 
 module.exports = router;

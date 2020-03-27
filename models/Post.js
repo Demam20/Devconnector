@@ -1,3 +1,4 @@
+
 const mongoose= require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -9,11 +10,11 @@ const PostSchema= new Schema ({
   },
   name :{
     type :String,
-    required:true
+    
   },
   avatar:{
     type:String,
-    required:true
+    
   },
   imagepost :{
     type: String,
@@ -61,11 +62,14 @@ const PostSchema= new Schema ({
     type:Date,
     default: Date.now
   },
-  bookmark:{
-    type:String,
-    required:false
+  // bookmarks:[{
+  //   post_id:{
+  //      type:Number
+  //   },
     
-  }
+    
+  // }]
 
 });
+
 module.exports=Post = mongoose.model('post',PostSchema);

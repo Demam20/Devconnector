@@ -1,14 +1,16 @@
 img {
   width: 100%;
+  
 }
 
 .landing {
   position: relative;
-  background: url('../src/img/3107569.jpg') no-repeat ;
+  background: url('../src/img/337228-PA00ZP-765.jpg') no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
-  text-align: center;
+  
+
 }
 
 .landing-inner {
@@ -35,4 +37,28 @@ img {
 
 .form-control::placeholder {
   color: #bbb !important;
+}
+
+h1 {
+  text-align: center;
+  
+  padding-bottom: 10px
+}
+
+.myBorder {
+  border-style: solid;
+}
+
+.myRuler {
+  
+  border-bottom: 2px inset red;
+}
+
+.myMargin {
+  
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  
 }

@@ -6,9 +6,9 @@ import './App.css';
 import store from './store'
 import Footer from './components/layout/Footer'
 import Landing from './components/layout/Landing'
-import Home from './components/layout/Home'
+
 import Register from './components/auth/Register'
-import Login from './components/auth/Login'
+
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
       
       <Route exact path="/" component={Landing} />
       <Route exact path="/register" component={Register} />
-      <Route exact path="/login" component={Login} />
+      
       <Footer />
     </div>
     </Router>

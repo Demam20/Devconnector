@@ -33,6 +33,11 @@ class Landing extends Component {
     this.props.loginUser(userData);
 
   }
+  componentDidMount(){
+    if(this.props.auth.isAuthenticated){
+      this.props.history.push('/dashboard');
+    }
+  }
   componentWillReceiveProps(nextProps){
     if (nextProps.auth.isAuthenticated){
       this.props.history.push('/dashboard');
@@ -42,7 +47,8 @@ class Landing extends Component {
     }
   }
   render() {
-    const {errors} = this.state
+    const {errors} = this.state;
+    
     return (
       <div className="container">
         <div className="row">

@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode';
 export const registerUser =(userData,history)=> dispatch =>{
   axios
         .post('/api/users/register', userData)
+        //the reson for ('/') is becoz in app.js we have mentioned the path like that
         .then(res => history.push('/') )
         .catch(err =>
              dispatch({
@@ -43,5 +44,18 @@ export const loginUser = userData => dispatch => {
         })
   )
 };
+//logout user action
+export const logoutUser = () => dispatch => {
+   //Remove localstorage
+   localStorage.removeItem('jwtToken');
+
+   //Remove from auth header
+   setAuthToken(false);
+
+   dispatch ({
+     type:SET_CURRENT_USER,
+     payload:{}
+   })
+ };
 
 

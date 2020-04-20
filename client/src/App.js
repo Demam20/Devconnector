@@ -6,6 +6,7 @@ import './App.css';
 import store from './store'
 import Footer from './components/layout/Footer'
 import Landing from './components/layout/Landing'
+import Navbar from './components/auth/Navbar'
 
 import Register from './components/auth/Register'
 import setAuthToken from './utillites/setAuthTo';
@@ -45,6 +46,7 @@ class App extends Component {
         
         <Route exact path="/" component={Landing} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/dashboard" component={Navbar} />
         
         <Footer />
       </div>
@@ -55,4 +57,4 @@ class App extends Component {
 }
 
 export default App;
-//testing comment
+

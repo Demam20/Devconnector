@@ -1,9 +1,12 @@
+
 import axios from 'axios'
 import { GET_PROFILE,
+
   GET_PROFILES,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
+
   SET_CURRENT_USER } from './types'
 
 export const createProfile = (profileData, history) =>
@@ -22,6 +25,7 @@ export const getCurrentProfile = () => dispatch => {
   dispatch(setProfileLoading());
   axios
     .get('/api/profile')
+
     .then(res =>
       dispatch({
         type: GET_PROFILE,
@@ -31,10 +35,13 @@ export const getCurrentProfile = () => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_PROFILE,
+
         payload: {}
+
       })
     );
 };
+
 
 // Delete account & profile
 export const deleteAccount = () => dispatch => {
@@ -67,5 +74,6 @@ export const setProfileLoading = () => {
 export const clearCurrentProfile = () => {
   return {
     type: CLEAR_CURRENT_PROFILE
+
   };
 };

@@ -11,6 +11,7 @@ import Register from './components/auth/Register'
 import { Component } from 'react';
 import setAuthToken from './utils/setAuthToken';
 import { SET_CURRENT_USER } from './actions/types';
+
 import jwt_decode from 'jwt-decode'
 import { logoutUser } from './actions/authactions';
 import Dashboard from './components/dashboard/Dashboard';
@@ -21,6 +22,7 @@ import CreateProfile from './components/create-profile/CreateProfile'
 if(localStorage.jwtToken) {
   //Decode
   const decoded = jwt_decode(localStorage.jwtToken)
+
 
   //check for expired token
   const currentTime = Date.now() / 1000
@@ -45,6 +47,7 @@ class App extends Component {
     return (
       <Provider store={store}>
       <Router>
+
       <div>
       
         <Route exact path="/" component={Home} />
@@ -64,6 +67,7 @@ class App extends Component {
             <PrivateRoute exact path="/edit-profile" component={EditProfile} />
           </Switch>
           </div>
+
         <Footer />
       </div>
       </Router>

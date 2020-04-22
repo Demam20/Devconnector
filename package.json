@@ -21,6 +21,7 @@
     "express-load": "^1.1.16",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^2.2.0",
     "mongoose": "^5.9.7",
     "node-modules": "^1.0.1",
     "passport": "^0.4.1",

@@ -5,6 +5,7 @@ import {registerUser} from '../../actions/authAction';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
+
 class Register extends Component {
   constructor(){
     super()
@@ -32,12 +33,13 @@ class Register extends Component {
       password2: this.state.password2
     }
     
-    this.props.registerUser(newUser,this.props.history);  
 
+    //firing the action
+    this.props.registerUser(newUser, this.props.history)
   }
-  componentWillReceiveProps(nextProps){
-    if (nextProps.errors){
-      this.setState({errors:nextProps.errors});
+  componentWillReceiveProps(newProps) {
+    if(newProps.errors) {
+      this.setState({errors: newProps.errors})
     }
   }
 
@@ -56,10 +58,12 @@ class Register extends Component {
               <div className="col-md-8 m-auto">
                 <br/>
                 <h1 className="display-4 text-center">Sign Up</h1>
+                
                 <p className="lead text-center">Create your Snapshare account</p>
                 <form onSubmit={this.onSubmit}>
                   <div className="form-group">
-                    <input type="text" className={classnames("form-control", {'is-invalid':errors.name})} placeholder="Name" name="name" 
+                    <input type="text" 
+                      className={classnames("form-control", {'is-invalid': errors.name})} placeholder="Name" name="name" 
                     value={this.state.name}
                     onChange={this.onChange}
                     />
@@ -70,7 +74,7 @@ class Register extends Component {
                     value={this.state.email}
                     onChange={this.onChange} 
                     />
-                    <small className="form-text text-muted">This site uses Gravatar so if you want a profile image, use a Gravatar email</small>
+                      
                     {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
                   </div>
                   <div className="form-group">
@@ -97,14 +101,17 @@ class Register extends Component {
     )
   }
 }
-Register.propTypes= {
-  registerUser:PropTypes.func.isRequired,
-  auth:PropTypes.object.isRequired,
-  errors:PropTypes.object.isRequired
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 }
 const mapStateToProps = (state) =>({
   auth:state.auth,
   errors:state.errors
 
 });
-export default connect(mapStateToProps,{registerUser}) (Register);
+// const mapStateToProps = (state) => ({
+//    auth: state.auth
+//  })
+export default connect(mapStateToProps, {registerUser})(Register)

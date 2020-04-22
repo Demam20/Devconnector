@@ -5,10 +5,11 @@ img {
 
 .landing {
   position: relative;
-  background: url('../src/img/337228-PA00ZP-765.jpg') no-repeat;
+  background: url('../src/img/social-networking-app-company.jpg') no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
+  
   
 
 }
@@ -60,5 +61,26 @@ h1 {
   margin-right: 10px;
   padding-left: 20px;
   padding-right: 20px;
+  
+}
+.example {
+  background: none;
+  background-color: red;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: red;
+  color: white;
+  text-align: center;
+
+}
+.tab-pane{
+  height:300px;
+  overflow-y: auto;
+  width:100%;
   
 }

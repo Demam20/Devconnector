@@ -1,12 +1,14 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import '../../App.css'
 
 function Footer() {
   return (
     
     <div>
       <nav className="navbar navbar-expand-lg fixed-bottom navbar-light">
-        <Link className="navbar-brand" to="#"></Link>
+        
+        
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -51,8 +53,11 @@ function Footer() {
           Copyright &copy; {new Date().getFullYear()} Snapshare
           </span>
         </div>
+        
       </nav>
+      
     </div>
+  
   )
 }
 

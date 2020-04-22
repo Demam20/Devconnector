@@ -16,6 +16,7 @@ import { logoutUser } from './actions/authactions';
 import Dashboard from './components/dashboard/Dashboard';
 import Home from './components/layout/Home'
 import EditProfile from './components/edit-profile/EditProfile'
+import CreateProfile from './components/create-profile/CreateProfile'
 
 if(localStorage.jwtToken) {
   //Decode
@@ -52,6 +53,13 @@ class App extends Component {
           <Switch>
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
           </Switch>
+          <Switch>
+                <PrivateRoute
+                  exact
+                  path="/create-profile"
+                  component={CreateProfile}
+                />
+              </Switch>
           <Switch>
             <PrivateRoute exact path="/edit-profile" component={EditProfile} />
           </Switch>

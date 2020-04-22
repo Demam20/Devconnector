@@ -13,6 +13,7 @@ import setAuthToken from './utillites/setAuthTo';
 import { SET_CURRENT_USER } from './actions/types';
 import jwt_decode from 'jwt-decode';
 import { logoutUser } from './actions/authAction';
+import Profile from './components/profile/Profile';
 
 if(localStorage.jwtToken){
 //decode token
@@ -47,7 +48,7 @@ class App extends Component {
         <Route exact path="/" component={Landing} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/dashboard" component={Navbar} />
-        
+        <Route exact path="/profile/:username" component={Profile}/>
         <Footer />
       </div>
       </Router>

@@ -8,8 +8,26 @@ import {
   SET_CURRENT_USER
 } from './types';
 
+//profile loading
+export const setProfileLoading=()=>{
+  return{
+    type:PROFILE_LOADING
+  };
+};
+//creat profile
+export const createProfile = (profileData, history) => dispatch => {
+  axios
+    .post('/api/profile',profileData)
+    .then(res => history.push('/dashboard'))
+    .catch(err=>
+      dispatch({
+        type:GET_ERRORS,
+        payload:err.response.data
+      })
+      );
+    };
 //get current profile
-export const getCurrentProfile = () => {
+export const getCurrentProfile = () => dispatch => {
   dispatch(setProfileLoading());
   axios
     .get('/api/profile') 
@@ -44,19 +62,9 @@ export const getProfileByUsername = Username => dispatch => {
       })
     );
 };
-//creat profile
-export const createProfile = (profileData, history) => dispatch => {
-  axios
-    .post('/api/profile',profileData)
-    .then(res => history.push('/dashboard'))
-    .catch(err=>
-      dispatch({
-        type:GET_ERRORS,
-        payload:err.response.data
-      })
-      );
+
     
-};
+
 //get all profiles
 export const getProfiles =()=> dispatch=>{
   dispatch(setProfileLoading());
@@ -95,12 +103,7 @@ export const deleteAccount =()=> dispatch=>{
         );  
   }
 };
-//profile loading
-export const setProfileLoading=()=>{
-  return{
-    type:PROFILE_LOADING
-  };
-};
+
 //clear profile
 export const clearCurrentProfile=()=>{
   return{

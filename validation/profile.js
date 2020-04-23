@@ -4,19 +4,19 @@ const isEmpty = require('./is-empty');
 module.exports = function validateProfileInput(data) {
   let errors = {};
 
-  data.name = !isEmpty(data.name) ? data.name : '';
+  data.username = !isEmpty(data.username) ? data.username : '';
   data.website = !isEmpty(data.website) ? data.website : '';
   data.bio = !isEmpty(data.bio) ? data.bio : '';
   data.phoneno = !isEmpty(data.phoneno) ? data.phoneno : '';
   data.gender = !isEmpty(data.gender) ? data.gender : '';
   data.newpwd = !isEmpty(data.newpwd) ? data.newpwd : '';
   
-  if (!Validator.isLength(data.name, { min: 2, max: 40 })) {
-    errors.name = 'Name needs to between 2 and 40 characters';
+  if (!Validator.isLength(data.username, { min: 2, max: 40 })) {
+    errors.username = 'Name needs to between 2 and 40 characters';
   }
 
-  if (Validator.isEmpty(data.name)) {
-    errors.name = 'Name is required';
+  if (Validator.isEmpty(data.username)) {
+    errors.username = 'Name is required';
   }
 
   if (!isEmpty(data.website)) {

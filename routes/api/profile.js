@@ -97,18 +97,19 @@ router.post(
     const profileFields = {}
     profileFields.UserID = req.user.id;
     profileFields.Email = req.user.email;
+    profileFields.Name = req.user.name;
     profileFields.ChangePassword ={}
     profileFields.ChangePassword.oldpwd = req.user.password;
     profileFields.Username = (req.body.username) ? req.body.username : req.user.name;
     profileFields.Avatar = (req.body.avatar) ? req.body.avatar : req.user.avatar
-    if (req.body.name) profileFields.Name = req.body.name;
+    //if (req.body.name) profileFields.Name = req.body.name;
     if (req.body.website) profileFields.Website = req.body.website;
     if (req.body.bio) profileFields.Bio = req.body.bio;
     if (req.body.phoneno) profileFields.Phoneno = req.body.phoneno;
     if (req.body.gender) profileFields.Gender = req.body.gender;
     if (req.body.similaraccountsuggestion) profileFields.SimilarAccountSuggestion = req.body.similaraccountsuggestion;
     
-    console.log(profileFields)
+    //console.log(profileFields)
 
 
     Profile.findOne({ "UserID": req.user.id }).then(profile => {

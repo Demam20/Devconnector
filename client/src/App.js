@@ -13,7 +13,7 @@ import setAuthToken from './utils/setAuthToken';
 import { SET_CURRENT_USER } from './actions/types';
 import Profiles from './components/profiles/Profiles'
 import jwt_decode from 'jwt-decode'
-import { logoutUser } from './actions/authactions';
+import { logoutUser } from './actions/authActions';
 import Dashboard from './components/dashboard/Dashboard';
 import Home from './components/layout/Home'
 import EditProfile from './components/edit-profile/EditProfile';

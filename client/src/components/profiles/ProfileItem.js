@@ -33,16 +33,16 @@ class ProfileItem extends Component {
                 )}
                 {isEmpty(profile.Email) ? null : <p>{profile.Email}</p>}
             </p>
-            
+            <Link to={`/profile/${profile.UserID}`} className="btn btn-info">
+              View Profile
+            </Link>
           </div>
         </div>
       </div>
     );
   }
 }
-ProfileItem.propTypes = {
-  profile: PropTypes.object.isRequired
-};
+
 
 export default ProfileItem;
 

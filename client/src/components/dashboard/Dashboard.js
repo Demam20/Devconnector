@@ -93,7 +93,7 @@ Dashboard.propTypes = {
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  auth: state.auth
+  auth:state.auth
 });
 
 export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(

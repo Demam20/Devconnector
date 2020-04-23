@@ -131,13 +131,13 @@ router.post(
             { new: true }
           ));
         }
-        if (req.body.username) {
-          promises.push(User.findOneAndUpdate(
-            { "_id": req.user.id },
-            { "$set": { "name": req.body.username } },
-            { new: true }
-          ));
-        }
+        // if (req.body.username) {
+        //   promises.push(User.findOneAndUpdate(
+        //     { "_id": req.user.id },
+        //     { "$set": { "name": req.body.username } },
+        //     { new: true }
+        //   ));
+        // }
 
         Promise.all(promises)
           .then(result => res.json({ "status": "Success" }));

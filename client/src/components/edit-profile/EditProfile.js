@@ -6,7 +6,7 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 // import InputGroup from '../common/InputGroup';
 // import SelectListGroup from '../common/SelectListGroup';
-import { createProfile, getCurrentProfile } from '../../actions/profileActions';
+import { createProfile, getCurrentProfile, changePassword} from '../../actions/profileActions';
 import isEmpty from '../../validation/is-empty';
 import Navbar from '../layout/Navbar';
 import '../../App.css'
@@ -26,9 +26,9 @@ class CreateProfile extends Component {
       Gender: '',
       SimilarAccountSuggestion: true,
       errors: {},
-      oldpwd: '',
-      newpwd: '',
-      newpwd2: '',
+      currentPwd:'',
+      newpwd:'',
+      newpwd2:'',
       feedbackemails: true,
       reminderemails: true,
       productemails: true,
@@ -38,6 +38,7 @@ class CreateProfile extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onClick = this.onClick.bind(this)
   }
 
   componentDidMount() {
@@ -59,8 +60,8 @@ class CreateProfile extends Component {
 
       // Set component fields state
       this.setState({
-        Name: profile.Name,
-        Username: user.name,
+        Name: user.name,
+        Username: profile.Username,
         Website: profile.Website,
         Bio: profile.Bio,
         Email: profile.Email,
@@ -80,25 +81,34 @@ class CreateProfile extends Component {
     e.preventDefault();
 
     const profileData = {
-      Name: this.state.Name,
-      Username: this.state.Username,
-      Website: this.state.Website,
-      Bio: this.state.Bio,
-      Email: this.state.Email,
-      Phoneno: this.state.Phoneno,
-      Gender: this.state.Gender,
-      SimilarAccountSuggestion: this.state.SimilarAccountSuggestion,
-      feedbackemails: this.state.feedbackemails,
-      reminderemails: this.state.reminderemails,
-      productemails: this.state.productemails,
-      newsemails: this.state.newsemails,
-      smsmessages: this.state.smsmessages
+
+      username: this.state.Username,
+      website: this.state.Website,
+      bio: this.state.Bio,
+      phoneno: this.state.Phoneno,
+      gender: this.state.Gender,
+      similaraccountsuggestion: this.state.SimilarAccountSuggestion,
+      
+      
     };
-    axios
-      .post('/api/profile', profileData)
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err.response.data))
-    //this.props.createProfile(profileData, this.props.history);
+    // axios
+    //   .post('/api/profile', profileData)
+    //   .then(res => console.log(res.data))
+    //   .catch(err => console.log(err.response.data))
+    this.props.createProfile(profileData, this.props.history);
+  }
+  onClick(e) {
+    e.preventDefault();
+    console.log("u clicked on change password")
+    const passwordData = {
+      currentPwd: this.state.currentPwd,
+      newpwd: this.state.newpwd,
+      newpwd2: this.state.newpwd2
+    };
+    //console.log(passwordData)
+    this.props.changePassword(passwordData)
+    
+    
   }
   
   onChange(e) {
@@ -149,7 +159,7 @@ class CreateProfile extends Component {
                       <div className="col-sm-7">
                         <input
                           type="text"
-                          className={classnames("form-control", { 'is-invalid': errors.Name })} placeholder="Username" name="Username"
+                          className={classnames("form-control", { 'is-invalid': errors.Username })} placeholder="Username" name="Username"
                           value={this.state.Username}
                           onChange={this.onChange}
                         />
@@ -258,52 +268,52 @@ class CreateProfile extends Component {
                   </form>
                 </div>
                 <div className="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                <form onSubmit={this.onSubmit}>
-                    <div className="form-group row">
-                      <label className="col-sm-3 col-form-label">Name</label>
-                      <div className="col-sm-7">
-                        <input
-                          type="text"
-                          className={classnames("form-control", { 'is-invalid': errors.Name })} placeholder="Name" name="Name"
-                          value={this.state.Name}
-                          onChange={this.onChange}
-                        />
-                        {errors.Name && (<div className="invalid-feedback">{errors.Name}</div>)}
-                      </div>
+                <form>
+                  <div className="form-group row">
+                    <label className="col-sm-3 col-form-label">Current Password</label>
+                    <div className="col-sm-7">
+                      <input
+                        type="password"
+                        className={classnames("form-control", { 'is-invalid': errors.currentPwd })} placeholder="Current Password" name="currentPwd"
+                        value={this.state.currentPwd}
+                        onChange={this.onChange}
+                      />
+                      {errors.currentPwd && (<div className="invalid-feedback">{errors.currentPwd}</div>)}
                     </div>
-                    <div className="form-group row">
-                      <label className="col-sm-3 col-form-label">Username</label>
-                      <div className="col-sm-7">
-                        <input
-                          type="text"
-                          className={classnames("form-control", { 'is-invalid': errors.Name })} placeholder="Name" name="Name"
-                          value={this.state.Name}
-                          onChange={this.onChange}
-                        />
-                        {errors.Name && (<div className="invalid-feedback">{errors.Name}</div>)}
-                      </div>
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-sm-3 col-form-label">New Password</label>
+                    <div className="col-sm-7">
+                      <input
+                        type="password"
+                        className={classnames("form-control", { 'is-invalid': errors.newpwd })} placeholder="New Password" name="newpwd"
+                        value={this.state.newpwd}
+                        onChange={this.onChange}
+                      />
+                      {errors.newpwd && (<div className="invalid-feedback">{errors.newpwd}</div>)}
                     </div>
-                    <div className="form-group row">
-                      <label className="col-sm-3 col-form-label">Website</label>
-                      <div className="col-sm-7">
-                        <input
-                          type="text"
-                          className={classnames("form-control", { 'is-invalid': errors.Name })} placeholder="Name" name="Name"
-                          value={this.state.Name}
-                          onChange={this.onChange}
-                        />
-                        {errors.Name && (<div className="invalid-feedback">{errors.Name}</div>)}
-                      </div>
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-sm-3 col-form-label">Confirm Password</label>
+                    <div className="col-sm-7">
+                      <input
+                        type="password"
+                        className={classnames("form-control", { 'is-invalid': errors.newpwd2 })} placeholder="Confirm New Password" name="newpwd2"
+                        value={this.state.newpwd2}
+                        onChange={this.onChange}
+                      />
+                      {errors.newpwd2 && (<div className="invalid-feedback">{errors.newpwd2}</div>)}
                     </div>
-                    <div class="form-group row">
-                      <div class="col-sm-3"></div>
-                      <div class="col-sm-4">
-                        <button type="submit" class="btn btn-primary btn btn-info btn-block mt-4">Update</button>
-                      </div>
-                      <div class="col-sm-3"></div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-4">
+                      <button type="button" class="btn btn-primary btn btn-info btn-block mt-4" onClick={this.onClick}>Update</button>
                     </div>
-                  </form>
-                </div>
+                    <div class="col-sm-3"></div>
+                  </div>
+                </form>
+              </div>
 
                 <div className="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                   <p>Subscribe To:</p>
@@ -367,7 +377,8 @@ CreateProfile.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  changePassword: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -376,5 +387,5 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+export default connect(mapStateToProps, { createProfile, getCurrentProfile, changePassword })(
   withRouter(CreateProfile));

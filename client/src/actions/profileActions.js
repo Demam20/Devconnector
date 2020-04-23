@@ -5,18 +5,44 @@ import { GET_PROFILE,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
   SET_CURRENT_USER } from './types'
+  import { logoutUser } from './authActions'
+  import setAuthToken from '../utils/setAuthToken'
+import jwt_decode from 'jwt-decode'
 
-export const createProfile = (profileData, history) =>
-  dispatch => {
+  export const createProfile = (profileData, history) => dispatch => {
     axios
       .post('/api/profile', profileData)
       .then(res => history.push('/dashboard'))
-      .catch(err => dispatch({
-        action: GET_ERRORS,
-        payload: err.response.data
-      }))
-  }
+      .catch(err =>
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        })
+      );
+  };
 
+  //change password action
+  export const changePassword = (passwordData) => dispatch => {
+    axios
+      .post('/api/profile/changepassword', passwordData)
+      .then(res => {
+        console.log(res.data)
+        localStorage.removeItem('jwtToken')
+        //delete from auth header
+        setAuthToken(false)
+        //clean from redux store
+        dispatch({
+            type: SET_CURRENT_USER,
+            payload: {}
+        })  
+      })
+      .catch(err =>
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        })
+      );
+  };
   // Get current profile
 export const getCurrentProfile = () => dispatch => {
   dispatch(setProfileLoading());

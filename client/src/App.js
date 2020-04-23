@@ -16,8 +16,9 @@ import jwt_decode from 'jwt-decode'
 import { logoutUser } from './actions/authactions';
 import Dashboard from './components/dashboard/Dashboard';
 import Home from './components/layout/Home'
-import EditProfile from './components/edit-profile/EditProfile'
-import CreateProfile from './components/create-profile/CreateProfile'
+import EditProfile from './components/edit-profile/EditProfile';
+import CreateProfile from './components/create-profile/CreateProfile';
+import Profile from './components/profile/Profile';
 
 if(localStorage.jwtToken) {
   //Decode
@@ -53,6 +54,7 @@ class App extends Component {
         <Route exact path="/" component={Home} />
         <div className="container">
           <Route exact path="/register" component={Register} />
+          <Route exact path="/profile/:user_id" component={Profile}/>
           <Switch>
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
           </Switch>

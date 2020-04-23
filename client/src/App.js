@@ -11,7 +11,7 @@ import Register from './components/auth/Register'
 import { Component } from 'react';
 import setAuthToken from './utils/setAuthToken';
 import { SET_CURRENT_USER } from './actions/types';
-
+import Profiles from './components/profiles/Profiles'
 import jwt_decode from 'jwt-decode'
 import { logoutUser } from './actions/authactions';
 import Dashboard from './components/dashboard/Dashboard';
@@ -54,6 +54,7 @@ class App extends Component {
         <Route exact path="/" component={Home} />
         <div className="container">
           <Route exact path="/register" component={Register} />
+          <Route exact path="/profiles" component={Profiles} />
           <Route exact path="/profile/:user_id" component={Profile}/>
           <Switch>
             <PrivateRoute exact path="/dashboard" component={Dashboard} />

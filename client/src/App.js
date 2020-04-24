@@ -10,6 +10,13 @@ import Landing from './components/layout/Landing'
 import Register from './components/auth/Register'
 import { Component } from 'react';
 import setAuthToken from './utils/setAuthToken';
+
+
+
+import Posts from './components/posts/Posts';
+import Post from './components/post/Post';
+
+
 import { SET_CURRENT_USER } from './actions/types';
 import Profiles from './components/profiles/Profiles'
 import jwt_decode from 'jwt-decode'
@@ -71,6 +78,21 @@ class App extends Component {
           </Switch>
           </div>
 
+      {/* <div className="landing">
+      <Navbar />
+        <Route exact path="/" component={Landing} />
+        <Route exact path="/register" component={Register} />
+         */}
+        {/* <Route exact path="/dashboard" component={Navbar} /> */}
+
+        <Switch>
+                <PrivateRoute exact path="/feed" component={Posts} />
+              </Switch>
+
+              <Switch>
+                <PrivateRoute exact path="/post/:id" component={Post} />
+              </Switch>
+        
         <Footer />
       </div>
       </Router>

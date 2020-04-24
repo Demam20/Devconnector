@@ -15,6 +15,9 @@ const User= require('../../models/User');
 //validation
 const validatePostInput = require('../../validation/posts');
 
+//commentvalidation
+const validateCommentInput = require('../../validation/commentsvalidation');
+
 // @route   POST api/posts
 // @desc    Create post
 // @access  Private
@@ -114,25 +117,28 @@ router.post('/unlike/:id', passport.authenticate('jwt', { session: false }),
 
 router.post('/comment/:id', passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const { errors, isValid } = validatePostInput(req.body);
+    
+    const { errors, isValid } = validateCommentInput(req.body);
 
     if (!isValid) {
+      
       return res.status(400).json(errors);
     }
     //find post to add comment
     Post.findById(req.params.id)
       .then(post => {
+        console.log("post id" + req.params.id);
         const newComment = {
           text: req.body.text,
           avatar: req.body.avatar,
           name: req.body.name,
           user: req.user.id
         };
+        console.log("inside comment");
         post.comments.unshift(newComment);
 
         //save comment
-        post.save()
-          .then(post => res.json(post));
+        post.save().then(post => res.json(post));
       })
       .catch(err => res.status(404).json({ postnotfound: 'No post found to add comment' }));
   }
@@ -172,11 +178,12 @@ router.delete(
   }
 );
 
-// @route   GET api/posts/all
+// @route   GET api/posts
 // @desc    Get posts
 // @access  Public
-
-router.get('/all', (req, res) => {
+//route canged from all to api/posts
+router.get('/', (req, res) => {
+  console.log("in all");
   const errors = {}
   Post.find()
   .then(posts => {
@@ -184,9 +191,7 @@ router.get('/all', (req, res) => {
       errors.noposts = "There are no post to display"
           return res.status(404).json(errors);
     }
-    posts.sort({ date: -1 })
-    .then(posts => res.json(posts))
-  })
+     return res.json(posts);})
   .catch(err => res.status(404).json(err));
 
 });

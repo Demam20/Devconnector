@@ -143,7 +143,17 @@ router.post(
           .then(result => res.json({ "status": "Success" }));
       }
       else {
-        new Profile(profileFields).save().then(profile => res.json(profile))
+        //create a new record
+        //check if username already exists
+        Profile.findOne({ Username: profileFields.Username })
+        .then(profile => {
+    			if(profile) {
+            errors.Username = "That handle already exists"
+            return res.status(400).json(errors);
+          }
+          //save the profile in the database
+          new Profile(profileFields).save().then(profile => res.json(profile))
+        })
       }
     })
   })

@@ -20,7 +20,7 @@ import Post from './components/post/Post';
 import { SET_CURRENT_USER } from './actions/types';
 import Profiles from './components/profiles/Profiles'
 import jwt_decode from 'jwt-decode'
-import { logoutUser } from './actions/authActions';
+import { logoutUser } from './actions/authactions';
 import Dashboard from './components/dashboard/Dashboard';
 import Home from './components/layout/Home'
 import EditProfile from './components/edit-profile/EditProfile';
@@ -77,14 +77,6 @@ class App extends Component {
             <PrivateRoute exact path="/edit-profile" component={EditProfile} />
           </Switch>
           </div>
-
-      {/* <div className="landing">
-      <Navbar />
-        <Route exact path="/" component={Landing} />
-        <Route exact path="/register" component={Register} />
-         */}
-        {/* <Route exact path="/dashboard" component={Navbar} /> */}
-
         <Switch>
                 <PrivateRoute exact path="/feed" component={Posts} />
               </Switch>

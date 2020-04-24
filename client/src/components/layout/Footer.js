@@ -6,7 +6,8 @@ function Footer() {
   return (
     
     <div>
-      <nav className="navbar navbar-expand-lg fixed-bottom navbar-light">
+    <footer>
+      <nav className="navbar navbar-expand-lg navbar-light">
         
         
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +56,7 @@ function Footer() {
         </div>
         
       </nav>
-      
+      </footer>
     </div>
   
   )

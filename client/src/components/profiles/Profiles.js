@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
 import ProfileItem from './ProfileItem';
 import { getProfiles } from '../../actions/profileActions';
+import Navbar from '../layout/Navbar'
 
 class Profiles extends Component {
   componentDidMount(){
@@ -26,6 +27,7 @@ class Profiles extends Component {
     }
     return(
       <div className="profiles">
+      <Navbar />
         <div className="container">
           <div className="row">
             <div className="col-md-12">

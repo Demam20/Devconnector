@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {loginUser} from '../../actions/authactions'
+import {loginUser} from '../../actions/authActions'
 import '../../App.css';
 import TextFieldGroup from '../../components/common/TextFieldGroup'
 

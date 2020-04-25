@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { logoutUser } from '../../actions/authactions'
+import { logoutUser } from '../../actions/authActions'
 import { Link } from 'react-router-dom';
 
 
@@ -33,7 +33,7 @@ class Navbar extends Component {
             style={{ width: '25px', marginRight: '5px' }}
             title="You must have a gravatar connected to your email to display an image"
           />
-          <Link to="/">Logout</Link>
+          <Link  to="/">Logout</Link>
         </a>
       </li>
     </ul>);

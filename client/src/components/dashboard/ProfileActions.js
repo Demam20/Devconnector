@@ -72,9 +72,9 @@ class ProfileActions extends Component {
               <div className="tab-content" id="myTabContent">
                 <div className="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="home-tab"></div>
                 <div className="tab-pane fade" id="igtv" role="tabpanel" aria-labelledby="profile-tab"></div>
-                <div className="tab-pane fade" id="saved" role="tabpanel" aria-labelledby="contact-tab"> 
-                  <img src={profile.imagepost} />
-                {JSON.stringify(profile.bookmarks)}
+                <div className="tab-pane fade" id="saved" role="tabpanel" aria-labelledby="contact-tab">{JSON.stringify(profile.bookmarks)}
+                  {/* <img className="image" src ={profile.bookmarks.imageurl} /> */}
+                   
                 </div>
                 <div className="tab-pane fade" id="tagged" role="tabpanel" aria-labelledby="contact-tab">...</div>
               </div>

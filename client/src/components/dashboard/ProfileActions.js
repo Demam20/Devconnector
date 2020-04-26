@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
+import {getPosts} from '../../actions/postAction'
 
 
 class ProfileActions extends Component {
@@ -47,6 +48,9 @@ class ProfileActions extends Component {
   constructor() {
     super()
   }
+  componentDidMount() {
+    this.props.getPosts()
+  }
 
   render() {
     const { user } = this.props.auth
@@ -54,6 +58,7 @@ class ProfileActions extends Component {
     const post = this.props.post.posts
     console.log("user ID:" + user.id)
     var postsCount = post.filter(item => item.user === user.id).length
+    
     return (
       <div>
         {this.renderProfileOverview(user, postsCount)}
@@ -67,7 +72,9 @@ class ProfileActions extends Component {
               <div className="tab-content" id="myTabContent">
                 <div className="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="home-tab"></div>
                 <div className="tab-pane fade" id="igtv" role="tabpanel" aria-labelledby="profile-tab"></div>
-                <div className="tab-pane fade" id="saved" role="tabpanel" aria-labelledby="contact-tab"> {JSON.stringify(profile.bookmarks)}
+                <div className="tab-pane fade" id="saved" role="tabpanel" aria-labelledby="contact-tab"> 
+                  <img src={profile.imagepost} />
+                {JSON.stringify(profile.bookmarks)}
                 </div>
                 <div className="tab-pane fade" id="tagged" role="tabpanel" aria-labelledby="contact-tab">...</div>
               </div>
@@ -121,6 +128,7 @@ class ProfileActions extends Component {
 ProfileActions.propTypes = {
 
   post: PropTypes.object.isRequired,
+  posts: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired
 
@@ -130,4 +138,4 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
   post: state.post
 })
-export default connect(mapStateToProps, null)(ProfileActions)
+export default connect(mapStateToProps, {getPosts})(ProfileActions)

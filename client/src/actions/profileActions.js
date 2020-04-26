@@ -5,7 +5,7 @@ import { GET_PROFILE,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
   SET_CURRENT_USER } from './types'
-  import { logoutUser } from './authActions'
+  import { logoutUser } from './authactions'
   import setAuthToken from '../utils/setAuthToken'
 import jwt_decode from 'jwt-decode'
 

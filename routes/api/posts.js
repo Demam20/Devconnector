@@ -231,6 +231,7 @@ passport.authenticate('jwt',{session:false})
             //saving post
               const bookmarkpost = {};
              if(req.params.id) bookmarkpost.POSTID = req.params.id;
+             
               console.log("inside bookmark route" + req.params.id)
              console.log("bookmark content" + JSON.stringify(bookmarkpost));
                const savelist = {bookmarkpost};

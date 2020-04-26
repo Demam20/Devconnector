@@ -54,6 +54,9 @@ const profileSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref:'posts'
       },
+      imageurl:{
+        type:String
+      },
       date:{
         type:Date,
         default: Date.now

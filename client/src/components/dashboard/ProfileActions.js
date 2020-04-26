@@ -51,10 +51,8 @@ class ProfileActions extends Component {
     const { user } = this.props.auth
     const { profile } = this.props.profile
     const post = this.props.post.posts
-    var postsCount = post.filter(item => item._id === user.id).length
-    console.log("hello")
-    console.log("Bookmarks: " + profile.bookmarks);
-
+    console.log("user ID:" + user.id)
+    var postsCount = post.filter(item => item.user === user.id).length
     return (
       <div>
         {this.renderProfileOverview(user, postsCount)}

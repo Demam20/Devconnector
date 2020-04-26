@@ -100,6 +100,19 @@ export const addLike = id => dispatch => {
     );
 };
 
+//Bookmark post 
+export const addbookmark = id => dispatch => {
+  console.log("inside bookmark");
+  axios.post (`api/posts/bookmark/${id}`)
+  .then(res =>dispatch(getPosts()))
+  .catch(err =>
+    dispatch({
+      type:GET_ERRORS,
+      payload:err.response.data
+    })
+    )
+}
+
 // Remove Like
 export const removeLike = id => dispatch => {
   axios

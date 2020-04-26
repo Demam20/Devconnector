@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 import  '../../App.css';
-import { deletePost, addLike, removeLike } from '../../actions/postAction';
+import { deletePost, addLike, removeLike,addbookmark } from '../../actions/postAction';
 
 class PostItem extends Component {
   onDeleteClick(id) {
@@ -19,6 +19,9 @@ class PostItem extends Component {
     this.props.removeLike(id);
   }
 
+  onBookmarkClick(id){
+    this.props.addbookmark(id);
+  }
   findUserLike(likes) {
     const { auth } = this.props;
     if (likes.filter(like => like.user === auth.user.id).length > 0) {
@@ -52,6 +55,7 @@ class PostItem extends Component {
           <br />
             {/* <p className="lead">{post.imagepost}</p> */}
             <p className='cardtext'>
+
             {showActions ? (
               
               <span>
@@ -74,6 +78,8 @@ class PostItem extends Component {
                 >
                   <i className="text-secondary fas fa-thumbs-down" />
                 </button>
+                
+                
                 <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
                   Comments
                 </Link>
@@ -85,10 +91,19 @@ class PostItem extends Component {
                   >
                     <i className="fas fa-times" />
                   </button>
-                ) : null}
+                )
+                 : null}
+                 <button
+              onClick={this.onBookmarkClick.bind(this, post._id)}
+               type="button"
+              className="btn btn-light mr-1 bookmark"
+            >
+              <i className="far fa-bookmark" />
+            </button>
               </span>
-              
             ) : null}
+            
+                
             </p>
           </div>
         </div>
@@ -106,6 +121,7 @@ PostItem.propTypes = {
   deletePost: PropTypes.func.isRequired,
   addLike: PropTypes.func.isRequired,
   removeLike: PropTypes.func.isRequired,
+  addbookmark:PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 };
@@ -114,6 +130,6 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { deletePost, addLike, removeLike })(
+export default connect(mapStateToProps, { deletePost, addLike, removeLike,addbookmark })(
   PostItem
 );

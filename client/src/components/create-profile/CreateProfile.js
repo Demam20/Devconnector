@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {loginUser} from '../../actions/authActions'
+import {loginUser} from '../../actions/authactions'
 
 class CreateProfile extends Component {
   constructor(){

@@ -35,6 +35,10 @@ const profileSchema = new Schema({
     type: Boolean,
     default: true
   },
+  date: {
+    type: Date,
+    default: Date.now
+  },
   ChangePassword: {
     oldpwd: {
       type: String,

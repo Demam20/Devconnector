@@ -85,3 +85,14 @@ h1 {
   overflow-x: hidden;
   
 }
+
+.image {
+  width: 300px;
+  height:250px;
+}
+
+.cardtext{
+  clear: both;
+  position: relative;
+  display: inline-block;
+}

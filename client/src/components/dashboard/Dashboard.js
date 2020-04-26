@@ -7,7 +7,6 @@ import Spinner from '../common/Spinner';
 import ProfileActions from './ProfileActions';
 import Navbar from '../layout/Navbar';
 
-
 class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
@@ -34,12 +33,8 @@ class Dashboard extends Component {
               Welcome &nbsp; <Link to={`/profile/${user.id}`}>{user.name}</Link>
             </p>
             <ProfileActions />
-            
             <div className="d-flex justify-content-center" style={{ marginBottom: '60px' }} />
-            <button
-              onClick={this.onDeleteClick.bind(this)}
-              className="btn btn-danger"
-            >
+            <button onClick={this.onDeleteClick.bind(this)} className="btn btn-danger">
               Delete My Account
             </button>
           </div>
@@ -79,7 +74,9 @@ class Dashboard extends Component {
             </div>
           </div>
         </div>
+       
       </div>
+      
     );
   }
 }

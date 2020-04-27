@@ -32,8 +32,8 @@ const profileSchema = new Schema({
     type: String
   },
   SimilarAccountSuggestion: {
-    type: Boolean,
-    default: true
+    type: Boolean
+    
   },
   date: {
     type: Date,

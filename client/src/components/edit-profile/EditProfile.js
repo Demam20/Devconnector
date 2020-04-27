@@ -6,7 +6,7 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 // import InputGroup from '../common/InputGroup';
 // import SelectListGroup from '../common/SelectListGroup';
-import { createProfile, getCurrentProfile, changePassword} from '../../actions/profileActions';
+import { createProfile, getCurrentProfile, changePassword } from '../../actions/profileActions';
 import isEmpty from '../../validation/is-empty';
 import Navbar from '../layout/Navbar';
 import '../../App.css'
@@ -24,11 +24,11 @@ class CreateProfile extends Component {
       Email: '',
       PhoneNo: '',
       Gender: '',
-      SimilarAccountSuggestion: true,
+      SimilarAccountSuggestion:'',
       errors: {},
-      currentPwd:'',
-      newpwd:'',
-      newpwd2:'',
+      currentPwd: '',
+      newpwd: '',
+      newpwd2: '',
       feedbackemails: true,
       reminderemails: true,
       productemails: true,
@@ -39,10 +39,15 @@ class CreateProfile extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onClick = this.onClick.bind(this)
+    this.onCheckboxChange = this.onCheckboxChange.bind(this)
   }
 
   componentDidMount() {
+    //console.log(this.props.profile.profile["SimilarAccountSuggestion"])
+
     this.props.getCurrentProfile();
+    this.setState({SimilarAccountSuggestion: this.props.profile.profile["SimilarAccountSuggestion"] });
+  
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,8 +60,8 @@ class CreateProfile extends Component {
       const { user } = nextProps.auth
 
       // If profile field doesnt exist, make empty string
-      profile.website = !isEmpty(profile.website) ? profile.website : '';
-      profile.bio = !isEmpty(profile.bio) ? profile.bio : '';
+      profile.Website = !isEmpty(profile.Website) ? profile.Website : '';
+      profile.Bio = !isEmpty(profile.Bio) ? profile.Bio : '';
 
       // Set component fields state
       this.setState({
@@ -74,11 +79,21 @@ class CreateProfile extends Component {
         newsemails: profile.Subscription.productemails,
         smsmessages: profile.Subscription.smsmessages
       });
+      
     }
   }
 
   onSubmit(e) {
     e.preventDefault();
+    var genderValue;
+    var ele = document.getElementsByName('Gender')
+    for (var i = 0; i < ele.length; i++) {
+      if (ele[i].type = "radio") {
+        if (ele[i].checked) {
+          genderValue = ele[i].value
+        }
+      }
+    }
 
     const profileData = {
 
@@ -86,11 +101,12 @@ class CreateProfile extends Component {
       website: this.state.Website,
       bio: this.state.Bio,
       phoneno: this.state.Phoneno,
-      gender: this.state.Gender,
+      gender: genderValue,
       similaraccountsuggestion: this.state.SimilarAccountSuggestion,
-      
-      
+
+
     };
+    console.log(profileData)
     // axios
     //   .post('/api/profile', profileData)
     //   .then(res => console.log(res.data))
@@ -107,12 +123,22 @@ class CreateProfile extends Component {
     };
     //console.log(passwordData)
     this.props.changePassword(passwordData)
-    
-    
+
+
   }
-  
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+  }
+
+  onCheckboxChange(event) {
+    const target = event.target;
+    const value = target.name === 'SimilarAccountSuggestion' ? target.checked : target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
+    
   }
 
   render() {
@@ -221,21 +247,29 @@ class CreateProfile extends Component {
                         <fieldset class="form-group">
                           <div class="row">
                             <div class="col-sm-10">
-                              <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1"  />
-                                <label class="form-check-label" for="gridRadios1">
+                              <div className="form-check">
+                                <input className="form-check-input" type="radio"
+                                  name="Gender" id="gridRadios1" value="Female"
+                                  checked={this.state.Gender === 'Female'}
+                                  onChange={this.onChange}
+                                />
+                                <label className="form-check-label">
                                   Female
                                 </label>
                               </div>
-                              <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" />
-                                <label class="form-check-label" for="gridRadios2">
+                              <div className="form-check">
+                                <input className="form-check-input" type="radio" name="Gender" id="gridRadios2" value="Male"
+                                  checked={this.state.Gender === 'Male'}
+                                  onChange={this.onChange} />
+                                <label className="form-check-label">
                                   Male
                                 </label>
                               </div>
-                              <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" checked />
-                                <label class="form-check-label" for="gridRadios3">
+                              <div className="form-check">
+                                <input className="form-check-input" type="radio" name="Gender" id="gridRadios3" value="Prefer not to say"
+                                  checked={this.state.Gender === 'Prefer not to say'}
+                                  onChange={this.onChange} />
+                                <label className="form-check-label">
                                   Prefer Not to Say
                                 </label>
                               </div>
@@ -248,9 +282,10 @@ class CreateProfile extends Component {
                       <div class="col-sm-3">Similar Account Suggestion</div>
                       <div class="col-sm-7">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="gridCheck1"
-                          onchange={this.onChange} 
-                          checked={this.state.SimilarAccountSuggestion}
+                          <input class="form-check-input" type="checkbox" id="gridCheck1" name="SimilarAccountSuggestion"
+                            
+                            onChange={this.onCheckboxChange}
+                            checked={this.state.SimilarAccountSuggestion}
                           />
                           <label class="form-check-label" for="gridCheck1">
                             Include your account when recommending similar accounts people might want to follow.[?]
@@ -268,52 +303,52 @@ class CreateProfile extends Component {
                   </form>
                 </div>
                 <div className="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                <form>
-                  <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">Current Password</label>
-                    <div className="col-sm-7">
-                      <input
-                        type="password"
-                        className={classnames("form-control", { 'is-invalid': errors.currentPwd })} placeholder="Current Password" name="currentPwd"
-                        value={this.state.currentPwd}
-                        onChange={this.onChange}
-                      />
-                      {errors.currentPwd && (<div className="invalid-feedback">{errors.currentPwd}</div>)}
+                  <form>
+                    <div className="form-group row">
+                      <label className="col-sm-3 col-form-label">Current Password</label>
+                      <div className="col-sm-7">
+                        <input
+                          type="password"
+                          className={classnames("form-control", { 'is-invalid': errors.currentPwd })} placeholder="Current Password" name="currentPwd"
+                          value={this.state.currentPwd}
+                          onChange={this.onChange}
+                        />
+                        {errors.currentPwd && (<div className="invalid-feedback">{errors.currentPwd}</div>)}
+                      </div>
                     </div>
-                  </div>
-                  <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">New Password</label>
-                    <div className="col-sm-7">
-                      <input
-                        type="password"
-                        className={classnames("form-control", { 'is-invalid': errors.newpwd })} placeholder="New Password" name="newpwd"
-                        value={this.state.newpwd}
-                        onChange={this.onChange}
-                      />
-                      {errors.newpwd && (<div className="invalid-feedback">{errors.newpwd}</div>)}
+                    <div className="form-group row">
+                      <label className="col-sm-3 col-form-label">New Password</label>
+                      <div className="col-sm-7">
+                        <input
+                          type="password"
+                          className={classnames("form-control", { 'is-invalid': errors.newpwd })} placeholder="New Password" name="newpwd"
+                          value={this.state.newpwd}
+                          onChange={this.onChange}
+                        />
+                        {errors.newpwd && (<div className="invalid-feedback">{errors.newpwd}</div>)}
+                      </div>
                     </div>
-                  </div>
-                  <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">Confirm Password</label>
-                    <div className="col-sm-7">
-                      <input
-                        type="password"
-                        className={classnames("form-control", { 'is-invalid': errors.newpwd2 })} placeholder="Confirm New Password" name="newpwd2"
-                        value={this.state.newpwd2}
-                        onChange={this.onChange}
-                      />
-                      {errors.newpwd2 && (<div className="invalid-feedback">{errors.newpwd2}</div>)}
+                    <div className="form-group row">
+                      <label className="col-sm-3 col-form-label">Confirm Password</label>
+                      <div className="col-sm-7">
+                        <input
+                          type="password"
+                          className={classnames("form-control", { 'is-invalid': errors.newpwd2 })} placeholder="Confirm New Password" name="newpwd2"
+                          value={this.state.newpwd2}
+                          onChange={this.onChange}
+                        />
+                        {errors.newpwd2 && (<div className="invalid-feedback">{errors.newpwd2}</div>)}
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group row">
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-4">
-                      <button type="button" class="btn btn-primary btn btn-info btn-block mt-4" onClick={this.onClick}>Update</button>
+                    <div class="form-group row">
+                      <div class="col-sm-3"></div>
+                      <div class="col-sm-4">
+                        <button type="button" class="btn btn-primary btn btn-info btn-block mt-4" onClick={this.onClick}>Update</button>
+                      </div>
+                      <div class="col-sm-3"></div>
                     </div>
-                    <div class="col-sm-3"></div>
-                  </div>
-                </form>
-              </div>
+                  </form>
+                </div>
 
                 <div className="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                   <p>Subscribe To:</p>

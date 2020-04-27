@@ -35,7 +35,7 @@ export const getPosts = () => dispatch => {
   axios
     .get('/api/posts')
     .then(res =>{
-      console.log("getposts"+JSON.stringify(res.length));
+      console.log("getposts");
       dispatch({
         type: GET_POSTS,
         payload: res.data

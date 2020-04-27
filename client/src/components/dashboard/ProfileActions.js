@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import {getPosts} from '../../actions/postAction'
+import PostForm from '../posts/PostForm';
+import PostFeed from '../posts/PostFeed';
 
 
 class ProfileActions extends Component {
@@ -52,12 +54,39 @@ class ProfileActions extends Component {
     this.props.getPosts()
   }
 
+
   render() {
     const { user } = this.props.auth
     const { profile } = this.props.profile
     const post = this.props.post.posts
-    console.log("user ID:" + user.id)
+    
+    //console.log("user ID:" + user.id)
     var postsCount = post.filter(item => item.user === user.id).length
+
+     const bookmarkpostid = profile.bookmarks.map(item => item.POSTID);
+     console.log("bookmarks " +JSON.stringify(bookmarkpostid));
+
+    var displaypost =[];
+    for(let temp of post) {
+      for(let tempb of bookmarkpostid){
+        if(temp._id === tempb){
+          displaypost.push(temp);
+        }
+      }  
+    }
+
+    var myposts=[];
+    for(let temp of post){
+      if(temp.user === user.id){
+        myposts.push(temp);
+      }
+    }
+    console.log("mypost" + JSON.stringify(myposts.length));
+    console.log("display post" + JSON.stringify(displaypost.length));
+    
+    let postContent = <PostFeed posts={displaypost} />;
+
+    let mypostcontent = <PostFeed posts={myposts} />;
     
     return (
       <div>
@@ -70,11 +99,16 @@ class ProfileActions extends Component {
                 {this.getTabs()}
               </ul>
               <div className="tab-content" id="myTabContent">
-                <div className="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="home-tab"></div>
+                <div className="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="home-tab">
+                <div className="col-md-12">
+              {mypostcontent}
+            </div> 
+            </div>    
                 <div className="tab-pane fade" id="igtv" role="tabpanel" aria-labelledby="profile-tab"></div>
-                <div className="tab-pane fade" id="saved" role="tabpanel" aria-labelledby="contact-tab">{JSON.stringify(profile.bookmarks)}
-                  {/* <img className="image" src ={profile.bookmarks.imageurl} /> */}
-                   
+                <div className="tab-pane fade" id="saved" role="tabpanel" aria-labelledby="contact-tab">
+                   <div className="col-md-12">
+              {postContent}
+            </div>    
                 </div>
                 <div className="tab-pane fade" id="tagged" role="tabpanel" aria-labelledby="contact-tab">...</div>
               </div>

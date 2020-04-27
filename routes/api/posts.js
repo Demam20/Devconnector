@@ -182,10 +182,19 @@ router.delete(
 // @desc    Get posts
 // @access  Public
 //route canged from all to api/posts
+
+// router.get('/', (req, res) => {
+//   Post.find()
+//     .sort({ date: -1 })
+//     .then(posts => res.json(posts))
+//     .catch(err => res.status(404).json({ nopostsfound: 'No posts found' }));
+// });
+
 router.get('/', (req, res) => {
-  console.log("in all");
+  console.log("in getposts route");
   const errors = {}
   Post.find()
+      .sort({date:-1})
   .then(posts => {
     if(!posts || posts.length == 0 ){
       errors.noposts = "There are no post to display"
@@ -196,11 +205,12 @@ router.get('/', (req, res) => {
 
 });
 
-// @route   GET api/posts/:id
+// @route   GET api/post/:id
 // @desc    Get post by id
 // @access  Public
 
 router.get('/:id', (req, res) => {
+  console.log("in getpost route");
   Post.findById(req.params.id)
     .then(post => res.json(post))
     .catch(err => res.status(404).json({ nopostfound: 'No post Found with this ID' }));

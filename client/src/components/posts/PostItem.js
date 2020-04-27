@@ -31,8 +31,20 @@ class PostItem extends Component {
     }
   }
 
+  // finddupebookmark(bookmarks) {
+  //   //const { bookmarks } = this.props.profile;
+  //   const{post} = this.props;
+  //   if (bookmarks.filter(bookmarkpost => bookmarkpost.POSTID === post._id).length > 0) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
   render() {
     const { post, auth, showActions } = this.props;
+    const { profile } = this.props;
+    //const { bookmarks } = this.props.profile;
 
     return (
      
@@ -96,10 +108,18 @@ class PostItem extends Component {
                  <button
               onClick={this.onBookmarkClick.bind(this, post._id)}
                type="button"
-              className="btn btn-light mr-1 bookmark"
+              className="btn btn-light mr-1 "
             >
+              
+            
               <i className="far fa-bookmark" />
-            </button>
+              {/* <i
+                    className={classnames('fas fa-thumbs-up', {
+                      'text-info': this.finddupebookmark(profile.bookmarks)
+                    })}
+                  />
+                  <span className="badge badge-light">{profile.bookmarks.length}</span> */}
+                </button>
               </span>
             ) : null}
             
@@ -123,11 +143,13 @@ PostItem.propTypes = {
   removeLike: PropTypes.func.isRequired,
   addbookmark:PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  profile:PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile:state.profile
 });
 
 export default connect(mapStateToProps, { deletePost, addLike, removeLike,addbookmark })(

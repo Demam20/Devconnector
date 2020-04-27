@@ -244,16 +244,14 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Profile.findOne({ UserID: req.user.id }).then(profile => {
-      profileFields.Subscription = {}
-      if (req.body.feedbackemails) profileFields.Subscription.feedbackemails = req.body.feedbackemails
-      if (req.body.reminderemails) profileFields.Subscription.reminderemails = req.body.reminderemails
-      if (req.body.productemails) profileFields.Subscription.productemails = req.body.productemails
-      if (req.body.newsemails) profileFields.Subscription.newsemails = req.body.newsemails
-      if (req.body.shoppingbrandemails) profileFields.Subscription.shoppingbrandemails = req.body.shoppingbrandemails
-      if (req.body.shoppingbagemails) profileFields.Subscription.shoppingbagemails = req.body.shoppingbagemails
-      if (req.body.smsmessages) profileFields.Subscription.smsmessages = req.body.smsmessages
-
-      profile.Subscription = profileFields.Subscription
+      const Subscription = {}
+      
+      Subscription.feedbackemails = req.body.feedbackemails
+      Subscription.reminderemails = req.body.reminderemails
+      Subscription.productemails = req.body.productemails
+      Subscription.newsemails = req.body.newsemails
+      Subscription.smsmessages = req.body.smsmessages
+      profile.Subscription = Subscription
       profile.save().then(profile => res.json(profile))
 
     })

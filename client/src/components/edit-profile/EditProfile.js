@@ -2,16 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import TextFieldGroup from '../common/TextFieldGroup';
-import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
-// import InputGroup from '../common/InputGroup';
-// import SelectListGroup from '../common/SelectListGroup';
-import { createProfile, getCurrentProfile, changePassword } from '../../actions/profileActions';
+import { createProfile, getCurrentProfile, changePassword, updateSubscription } from '../../actions/profileActions';
 import isEmpty from '../../validation/is-empty';
 import Navbar from '../layout/Navbar';
 import '../../App.css'
 import classnames from 'classnames'
-import axios from 'axios'
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -29,24 +24,35 @@ class CreateProfile extends Component {
       currentPwd: '',
       newpwd: '',
       newpwd2: '',
-      feedbackemails: true,
-      reminderemails: true,
-      productemails: true,
-      newsemails: true,
-      smsmessages: true
+      feedbackemails: '',
+      reminderemails: '',
+      productemails: '',
+      newsemails: '',
+      smsmessages: ''
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onClick = this.onClick.bind(this)
     this.onCheckboxChange = this.onCheckboxChange.bind(this)
+    this.onSubscriptionClick = this.onSubscriptionClick.bind(this)
   }
 
   componentDidMount() {
-    //console.log(this.props.profile.profile["SimilarAccountSuggestion"])
+    // console.log(this.props.profile.profile["Subscription"].feedbackemails)
+    // console.log("SimilarAccountSuggestion:" + this.props.profile.profile["SimilarAccountSuggestion"]);
+    // console.log("SimilarAccountSuggestion:" + this.props.profile.profile.SimilarAccountSuggestion);
 
     this.props.getCurrentProfile();
-    this.setState({SimilarAccountSuggestion: this.props.profile.profile["SimilarAccountSuggestion"] });
+    this.setState({
+      SimilarAccountSuggestion: this.props.profile.profile["SimilarAccountSuggestion"],
+      feedbackemails: this.props.profile.profile["Subscription"].feedbackemails,
+      reminderemails: this.props.profile.profile["Subscription"].reminderemails,
+      productemails: this.props.profile.profile["Subscription"].productemails,
+      newsemails: this.props.profile.profile["Subscription"].newsemails,
+      smsmessages: this.props.profile.profile["Subscription"].smsmessages
+    
+    });
   
   }
 
@@ -106,11 +112,6 @@ class CreateProfile extends Component {
 
 
     };
-    console.log(profileData)
-    // axios
-    //   .post('/api/profile', profileData)
-    //   .then(res => console.log(res.data))
-    //   .catch(err => console.log(err.response.data))
     this.props.createProfile(profileData, this.props.history);
   }
   onClick(e) {
@@ -123,7 +124,19 @@ class CreateProfile extends Component {
     };
     //console.log(passwordData)
     this.props.changePassword(passwordData)
+  }
 
+  onSubscriptionClick(e) {
+    e.preventDefault();
+    const subscriptionData = {
+      feedbackemails: this.state.feedbackemails,
+      reminderemails: this.state.reminderemails,
+      productemails: this.state.productemails,
+      newsemails: this.state.newsemails,
+      smsmessages: this.state.smsmessages
+    }
+    //console.log(subscriptionData)
+    this.props.updateSubscription(subscriptionData, this.props.history)
 
   }
 
@@ -133,7 +146,7 @@ class CreateProfile extends Component {
 
   onCheckboxChange(event) {
     const target = event.target;
-    const value = target.name === 'SimilarAccountSuggestion' ? target.checked : target.value;
+    const value = target.name === 'SimilarAccountSuggestion' || 'feedbackemails' || 'reminderemails' || 'productemails' || 'newsemails' || 'smsmessages'? target.checked : target.value;
     const name = target.name;
     this.setState({
       [name]: value
@@ -353,7 +366,9 @@ class CreateProfile extends Component {
                 <div className="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                   <p>Subscribe To:</p>
                   <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                    <input className="form-check-input" type="checkbox" name="feedbackemails"
+                      onChange={this.onCheckboxChange}
+                      checked={this.state.feedbackemails} />
                     <label className="form-check-label">
                       Feedback Emails
                             </label>
@@ -361,7 +376,9 @@ class CreateProfile extends Component {
                   </div>
                   <br />
                   <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="defaultCheck2" />
+                    <input className="form-check-input" type="checkbox" name="reminderemails"
+                      onChange={this.onCheckboxChange}
+                      checked={this.state.reminderemails} />
                     <label className="form-check-label">
                       Reminder Emails
                             </label>
@@ -369,7 +386,9 @@ class CreateProfile extends Component {
                   </div>
                   <br />
                   <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                    <input className="form-check-input" type="checkbox" name="productemails"
+                      onChange={this.onCheckboxChange}
+                      checked={this.state.productemails} />
                     <label className="form-check-label">
                       Product Emails
                             </label>
@@ -377,7 +396,9 @@ class CreateProfile extends Component {
                   </div>
                   <br />
                   <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="defaultCheck2" />
+                    <input className="form-check-input" type="checkbox" name="newsemails"
+                      onChange={this.onCheckboxChange}
+                      checked={this.state.newsemails} />
                     <label className="form-check-label">
                       News Emails
                             </label>
@@ -385,11 +406,18 @@ class CreateProfile extends Component {
                   </div>
                   <br />
                   <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="defaultCheck2" />
+                    <input className="form-check-input" type="checkbox" name="smsmessages"
+                      onChange={this.onCheckboxChange}
+                      checked={this.state.smsmessages} />
                     <label className="form-check-label">
                       Text (SMS) Messages
                             </label>
                     <small className="form-text text-muted">Get notifications by text message.</small>
+                  </div>
+                  <div class="form-group row">
+                  <div class="col-sm-6">
+                  <button type="button" class="btn btn-primary btn btn-info btn-block mt-4" onClick={this.onSubscriptionClick}>Update</button>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -413,7 +441,8 @@ CreateProfile.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  changePassword: PropTypes.func.isRequired
+  changePassword: PropTypes.func.isRequired,
+  updateSubscription: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -422,5 +451,5 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { createProfile, getCurrentProfile, changePassword })(
+export default connect(mapStateToProps, { createProfile, getCurrentProfile, changePassword, updateSubscription })(
   withRouter(CreateProfile));

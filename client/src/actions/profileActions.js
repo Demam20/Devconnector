@@ -43,6 +43,18 @@ import jwt_decode from 'jwt-decode'
         })
       );
   };
+  //change subscription data action
+  export const updateSubscription = (subscriptionData, history) => dispatch => {
+    axios
+      .post('/api/profile/subscription', subscriptionData)
+      .then(res => history.push('/dashboard'))
+      .catch(err =>
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        })
+      );
+  };
   // Get current profile
 export const getCurrentProfile = () => dispatch => {
   dispatch(setProfileLoading());

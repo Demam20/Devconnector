@@ -32,7 +32,8 @@ const profileSchema = new Schema({
     type: String
   },
   SimilarAccountSuggestion: {
-    type: Boolean
+    type: Boolean,
+    default: true
     
   },
   date: {
@@ -76,14 +77,6 @@ const profileSchema = new Schema({
       default: true
     },
     newsemails: {
-      type: Boolean,
-      default: true
-    },
-    shoppingbrandemails: {
-      type: Boolean,
-      default: true
-    },
-    shoppingbagemails: {
       type: Boolean,
       default: true
     },

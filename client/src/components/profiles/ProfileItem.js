@@ -16,11 +16,13 @@ class ProfileItem extends Component {
             <h3>{profile.Name}</h3>
             <p>
               {profile.Username}{' '}
+              <div>
               {isEmpty(profile.Phoneno) ? null : (
                 <span>Phone# {profile.Phoneno}</span>
               )}
+              </div>
             </p>
-              {isEmpty(profile.Gender) ? null : <p>{profile.Gender}</p>}
+              {isEmpty(profile.Gender) ? null : <p>Gender : {profile.Gender}</p>}
             <p>
             {isEmpty(profile.Website) ? null : (
                   <a

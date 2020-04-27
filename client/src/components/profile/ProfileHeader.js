@@ -23,11 +23,14 @@ class ProfileHeader extends Component {
               <h1 className="display-4 text-center">{profile.Name}</h1>
               <p className="lead text-center">
                 {profile.Username}{' '}
+                <div>
                 {isEmpty(profile.Phoneno) ? null : (
                   <span>Phone# {profile.Phoneno}</span>
+                
                 )}
+                </div> 
               </p>
-              {isEmpty(profile.Gender) ? null : <p>{profile.Gender}</p>}
+              {isEmpty(profile.Gender) ? null : <p>Gender : {profile.Gender}</p>}
               <p>
                 {isEmpty(profile.Website) ? null : (
                   <a

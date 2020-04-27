@@ -107,7 +107,7 @@ router.post(
     if (req.body.bio) profileFields.Bio = req.body.bio;
     if (req.body.phoneno) profileFields.Phoneno = req.body.phoneno;
     if (req.body.gender) profileFields.Gender = req.body.gender;
-    if (req.body.similaraccountsuggestion) profileFields.SimilarAccountSuggestion = req.body.similaraccountsuggestion;
+    profileFields.SimilarAccountSuggestion = req.body.similaraccountsuggestion;
     
     //console.log(profileFields)
 

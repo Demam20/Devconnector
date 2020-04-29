@@ -13,9 +13,9 @@ class ProfileItem extends Component {
             <img src={profile.Avatar} alt="" className="rounded-circle" />
           </div>
           <div className="col-lg-6 col-md-4 col-8">
-            <h3>{profile.Name}</h3>
+            <h3>Name:{profile.Name}</h3>
             <p>
-              {profile.Username}{' '}
+              User Name:{profile.Username}{' '}
               <div>
               {isEmpty(profile.Phoneno) ? null : (
                 <span>Phone# {profile.Phoneno}</span>

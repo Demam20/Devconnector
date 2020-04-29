@@ -20,9 +20,9 @@ class ProfileHeader extends Component {
               </div>
             </div>
             <div className="text-center">
-              <h1 className="display-4 text-center">{profile.Name}</h1>
+              <h1 className="display-4 text-center">Name:{profile.Name}</h1>
               <p className="lead text-center">
-                {profile.Username}{' '}
+                User Name:{profile.Username}{' '}
                 <div>
                 {isEmpty(profile.Phoneno) ? null : (
                   <span>Phone# {profile.Phoneno}</span>

@@ -6,6 +6,8 @@ import {getPosts} from '../../actions/postAction'
 import PostForm from '../posts/PostForm';
 import PostFeed from '../posts/PostFeed';
 import '../../App.css'
+import PostItem from  '../posts/PostItem';
+
 
 class ProfileActions extends Component {
   tabs = [
@@ -66,27 +68,25 @@ class ProfileActions extends Component {
     var followingCount = profile.youFollowing.length
     var followerCount = profile.yourFollowers.length
     
+//all bookmarks
      const bookmarkpostid = profile.bookmarks.map(item => item.POSTID);
      //console.log("bookmarks " +JSON.stringify(bookmarkpostid));
 
     var displaypost =[];
-    for(let temp of post) {
-      for(let tempb of bookmarkpostid){
-        if(temp._id === tempb){
-          displaypost.push(temp);
+    for(let itempost of post) {
+      for(let itembookmark of bookmarkpostid){
+        if(itempost._id === itembookmark){
+          displaypost.push(itempost);
         }
       }  
     }
 
     var myposts=[];
-    for(let temp of post){
-      if(temp.user === user.id){
-        myposts.push(temp);
+    for(let itempost of post){
+      if(itempost.user === user.id){
+        myposts.push(itempost);
       }
     }
-    // console.log("mypost" + JSON.stringify(myposts.length));
-    // console.log("display post" + JSON.stringify(displaypost.length));
-    
     let postContent = displaypost.map(post => (
       <div className="row">
         <div className="column">
@@ -104,6 +104,13 @@ class ProfileActions extends Component {
         </div>
       </div>
   ))
+    // console.log("mypost" + JSON.stringify(myposts.length));
+    // console.log("display post" + JSON.stringify(displaypost.length));
+    
+    // let postContent = <PostFeed posts={displaypost} showActions={false} />;
+    
+    // let mypostcontent = <PostFeed posts={myposts} showActions={false}/>;
+    
     return (
       <div>
         {this.renderProfileOverview(user, postsCount, followingCount, followerCount)}

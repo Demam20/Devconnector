@@ -33,7 +33,7 @@ export default function(state = initialState, action) {
         loading: false
       };
     case ADD_POST:
-      console.log("In aDD POST" + JSON.stringify(state) + JSON.stringify(action));
+      //console.log("In aDD POST" + JSON.stringify(state) + JSON.stringify(action));
       return {
         ...state,
         posts: [action.payload, ...state.posts]

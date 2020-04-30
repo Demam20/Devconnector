@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 import  '../../App.css';
-import { deletePost, addLike, removeLike,addbookmark } from '../../actions/postAction';
+import { deletePost, addLike, removeLike,addbookmark} from '../../actions/postAction';
+
 
 class PostItem extends Component {
+  
   onDeleteClick(id) {
     this.props.deletePost(id);
   }
@@ -31,19 +33,24 @@ class PostItem extends Component {
     }
   }
 
-  // finddupebookmark(bookmarks) {
-  //   //const { bookmarks } = this.props.profile;
-  //   const{post} = this.props;
-  //   if (bookmarks.filter(bookmarkpost => bookmarkpost.POSTID === post._id).length > 0) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+  
+  alreadysavedposts(id){
+    const { profile } = this.props;
+    console.log("in alreadylikedposts profile "+JSON.stringify(Object.keys(profile)));
+    console.log("in profile "+JSON.stringify(Object.keys(profile.profile)));
+
+    const bookmarkpostids = profile.profile.bookmarks.map(item => item.POSTID);
+    if(bookmarkpostids.filter(bookmarkpostid=> bookmarkpostid === id).length>0){
+      return true;
+    } else{
+      return false;
+    }
+  }
 
   render() {
-    const { post, auth, showActions } = this.props;
-    const { profile } = this.props;
+    
+    const { post, auth, showActions,profile } = this.props;
+    //const { profile } = this.props;
     //const { bookmarks } = this.props.profile;
 
     return (
@@ -110,15 +117,13 @@ class PostItem extends Component {
                type="button"
               className="btn btn-light mr-1 "
             >
-              
-            
-              <i className="far fa-bookmark" />
-              {/* <i
-                    className={classnames('fas fa-thumbs-up', {
-                      'text-info': this.finddupebookmark(profile.bookmarks)
+              <i
+                    className={classnames('fas fa-bookmark', {
+                      'text-info': this.alreadysavedposts(post._id)
                     })}
                   />
-                  <span className="badge badge-light">{profile.bookmarks.length}</span> */}
+              
+              
                 </button>
               </span>
             ) : null}
@@ -152,6 +157,4 @@ const mapStateToProps = state => ({
   profile:state.profile
 });
 
-export default connect(mapStateToProps, { deletePost, addLike, removeLike,addbookmark })(
-  PostItem
-);
+export default connect(mapStateToProps, { deletePost, addLike, removeLike,addbookmark}) (PostItem);

@@ -27,9 +27,11 @@ componentDidMount(){
   onClick(e) {
     e.preventDefault();
     console.log(e.target.id)
+    
     const data = {
-      youFollowing: e.target.id,
-      profileID: e.target.id
+      youFollowing: e.target.id, //This is to update owner's youfollowing array e.target.id contains the profile
+      // ID of the profile you are following
+      profileID: e.target.id //this is to retrieve the profileid to update the follower array of //that profileID
     
     }
     if(e.target.innerHTML === "Follow") {

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {getPosts} from '../../actions/postAction'
 import PostForm from '../posts/PostForm';
 import PostFeed from '../posts/PostFeed';
-
+import '../../App.css'
 
 class ProfileActions extends Component {
   tabs = [
@@ -87,10 +87,23 @@ class ProfileActions extends Component {
     // console.log("mypost" + JSON.stringify(myposts.length));
     // console.log("display post" + JSON.stringify(displaypost.length));
     
-    let postContent = <PostFeed posts={displaypost} />;
+    let postContent = displaypost.map(post => (
+      <div className="row">
+        <div className="column">
+        <p ><img className="image" src={post.imagepost}    /></p>
+        <br />
+        </div>
+      </div>
+  ))
 
-    let mypostcontent = <PostFeed posts={myposts} />;
-    
+    let mypostcontent = myposts.map(post => (
+      <div className="row">
+        <div className="column">
+        <p ><img className="image" src={post.imagepost}    /></p>
+        <br />
+        </div>
+      </div>
+  ))
     return (
       <div>
         {this.renderProfileOverview(user, postsCount, followingCount, followerCount)}

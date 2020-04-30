@@ -268,7 +268,6 @@ router.post(
       const data2 = profile._id
       const data = req.body.youFollowing
       profile.youFollowing.unshift(data)
-      console.log(profile.youFollowing)
       profile.save().then(profile => res.json(profile))
       Profile.findOne({"_id": req.body.profileID}).then(profile => {
         
@@ -279,7 +278,7 @@ router.post(
     })
   }
 )
-//@route POST api/profile/follow
+//@route POST api/profile/unfollow
 //@desc update following and follower info
 //@access Private
 router.post(
@@ -292,14 +291,10 @@ router.post(
       //get remove index
       const removeIndex = profile.youFollowing.map(item => item.toString()).indexOf(data)
       profile.youFollowing.splice(removeIndex, 1)
-      console.log(profile.youFollowing)
       profile.save().then(profile => res.json(profile))
       Profile.findOne({"_id": req.body.profileID}).then(profile => {
-        console.log("we are here to remove your followers" + profile)
         const removableIndex = profile.yourFollowers.map(item => item.toString()).indexOf(data2)
-        console.log("this is remove index" + removableIndex)
         profile.yourFollowers.splice(removableIndex, 1)
-        console.log("your followers array is " + profile.yourFollowers)
         profile.save().then(profile=> res.json(profile))
       })
 

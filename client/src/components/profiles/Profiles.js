@@ -7,8 +7,8 @@ import { getProfiles } from '../../actions/profileActions';
 import Navbar from '../layout/Navbar'
 
 class Profiles extends Component {
-  constructor(props){
-    super(props)
+  constructor(){
+    super()
     
     
   }
@@ -25,16 +25,16 @@ class Profiles extends Component {
                       
       if (profiles.length >0){
         
-        const tempfollowingId =[]
-        const tempProfileId = profiles.map(item => item._id)
-        const tempId = profiles.filter(item=> item.UserID === this.props.auth.user.id).map(ele => ele.youFollowing)
+        const tempfollowingId =[] //to store the youfollowing profile IDs of the owner
+        const tempProfileId = profiles.map(item => item._id) //contains profile IDs of all the profiles
+        const tempId = profiles.filter(profile=> profile.UserID === this.props.auth.user.id).map(ele => ele.youFollowing)
         tempId.forEach(element => {
           for( var k=0; k<element.length; k++){
             tempfollowingId.push(element[k])
           }
         })
-        // console.log(tempProfileId)
-        // console.log(tempfollowingId)
+        //tempfollowingID will contain the following array IDs of the the loggedin user(owner)
+        
         let intersection = tempProfileId.filter(x => tempfollowingId.includes(x));
         //console.log(intersection)
         //intersection means the user is already following these profiles so the button should say unfollow for these profiles

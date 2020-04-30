@@ -61,10 +61,13 @@ class ProfileActions extends Component {
     const post = this.props.post.posts
     
     //console.log("user ID:" + user.id)
+    
     var postsCount = post.filter(item => item.user === user.id).length
-
+    var followingCount = profile.youFollowing.length
+    var followerCount = profile.yourFollowers.length
+    
      const bookmarkpostid = profile.bookmarks.map(item => item.POSTID);
-     console.log("bookmarks " +JSON.stringify(bookmarkpostid));
+     //console.log("bookmarks " +JSON.stringify(bookmarkpostid));
 
     var displaypost =[];
     for(let temp of post) {
@@ -81,8 +84,8 @@ class ProfileActions extends Component {
         myposts.push(temp);
       }
     }
-    console.log("mypost" + JSON.stringify(myposts.length));
-    console.log("display post" + JSON.stringify(displaypost.length));
+    // console.log("mypost" + JSON.stringify(myposts.length));
+    // console.log("display post" + JSON.stringify(displaypost.length));
     
     let postContent = <PostFeed posts={displaypost} />;
 
@@ -90,7 +93,7 @@ class ProfileActions extends Component {
     
     return (
       <div>
-        {this.renderProfileOverview(user, postsCount)}
+        {this.renderProfileOverview(user, postsCount, followingCount, followerCount)}
         <div className="card card-body mb-3">
           <div className="row">
             <div className="col-md-3"></div>
@@ -130,7 +133,7 @@ class ProfileActions extends Component {
     }))
   }
 
-  renderProfileOverview(user, postsCount) {
+  renderProfileOverview(user, postsCount, followingCount, followerCount) {
     return (
       <div className="card card-body mb-3">
         <div className="row">
@@ -152,7 +155,7 @@ class ProfileActions extends Component {
         </div>
         <div className="row">
           <div className="col-md-5"></div>
-          <div className="col-md-7">{postsCount} Posts &emsp; 0 Followers &emsp; 0 Following</div>
+          <div className="col-md-7">{postsCount} Posts &emsp; {followerCount} Followers &emsp; {followingCount} Following</div>
         </div>
       </div>
     );

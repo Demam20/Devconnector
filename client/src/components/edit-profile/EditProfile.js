@@ -88,7 +88,7 @@ class CreateProfile extends Component {
       
     }
   }
-
+  //edit profile
   onSubmit(e) {
     e.preventDefault();
     var genderValue;
@@ -114,6 +114,7 @@ class CreateProfile extends Component {
     };
     this.props.createProfile(profileData, this.props.history);
   }
+  //change password
   onClick(e) {
     e.preventDefault();
     console.log("u clicked on change password")
@@ -125,7 +126,7 @@ class CreateProfile extends Component {
     //console.log(passwordData)
     this.props.changePassword(passwordData)
   }
-
+//sunscription changes
   onSubscriptionClick(e) {
     e.preventDefault();
     const subscriptionData = {
@@ -189,6 +190,7 @@ class CreateProfile extends Component {
                           className={classnames("form-control", { 'is-invalid': errors.Name })} placeholder="Name" name="Name"
                           value={this.state.Name}
                           onChange={this.onChange}
+                          
                         />
                         {errors.Name && (<div className="invalid-feedback">{errors.Name}</div>)}
                       </div>

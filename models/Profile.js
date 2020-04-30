@@ -50,6 +50,12 @@ const profileSchema = new Schema({
     
     }
   },
+  youFollowing:[{
+      type:String
+    }],
+  yourFollowers:[{
+      type:String
+    }],
   bookmarks:[{
       POSTID:{
         type:Schema.Types.ObjectId,

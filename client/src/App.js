@@ -21,6 +21,7 @@ import Home from './components/layout/Home'
 import EditProfile from './components/edit-profile/EditProfile';
 import CreateProfile from './components/create-profile/CreateProfile';
 import Profile from './components/profile/Profile';
+import Sample from './components/dashboard/sample'
 
 if(localStorage.jwtToken) {
   //Decode
@@ -47,6 +48,13 @@ if(localStorage.jwtToken) {
 }
 class App extends Component {
   render() {
+    // return(
+    //   <div>
+      
+    //   <Sample />
+    // </div>
+    // )
+    
     return (
       <Provider store={store}>
       <Router>

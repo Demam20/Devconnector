@@ -194,10 +194,10 @@ router.post(
         profile.ChangePassword.oldpwd = userprofile.password
         bcrypt.compare(req.body.currentPwd, userprofile.password)
         .then(isMatch => {
-          if(!isMatch) console.log("is not a match")
+          if(!isMatch) return res.status(404).json({ status: "Password is not a match" })
 
           if (isMatch) {
-            console.log("we are here")
+            //console.log("we are here")
 
             bcrypt.hash(req.body.newpwd, 10, (err, hash) => {
               if (err) {
@@ -253,6 +253,55 @@ router.post(
       Subscription.smsmessages = req.body.smsmessages
       profile.Subscription = Subscription
       profile.save().then(profile => res.json(profile))
+
+    })
+  }
+)
+//@route POST api/profile/follow
+//@desc update following and follower info
+//@access Private
+router.post(
+  '/follow',
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ UserID: req.user.id }).then(profile => {
+      const data2 = profile._id
+      const data = req.body.youFollowing
+      profile.youFollowing.unshift(data)
+      console.log(profile.youFollowing)
+      profile.save().then(profile => res.json(profile))
+      Profile.findOne({"_id": req.body.profileID}).then(profile => {
+        
+        profile.yourFollowers.unshift(data2)
+        profile.save().then(profile=> res.json(profile))
+      })
+
+    })
+  }
+)
+//@route POST api/profile/follow
+//@desc update following and follower info
+//@access Private
+router.post(
+  '/unfollow',
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ UserID: req.user.id }).then(profile => {
+      const data2 = profile._id
+      const data = req.body.youFollowing
+      //get remove index
+      const removeIndex = profile.youFollowing.map(item => item.toString()).indexOf(data)
+      profile.youFollowing.splice(removeIndex, 1)
+      console.log(profile.youFollowing)
+      profile.save().then(profile => res.json(profile))
+      Profile.findOne({"_id": req.body.profileID}).then(profile => {
+        console.log("we are here to remove your followers" + profile)
+        const removableIndex = profile.yourFollowers.map(item => item.toString()).indexOf(data2)
+        console.log("this is remove index" + removableIndex)
+        profile.yourFollowers.splice(removableIndex, 1)
+        console.log("your followers array is " + profile.yourFollowers)
+        profile.save().then(profile=> res.json(profile))
+      })
 
     })
   }

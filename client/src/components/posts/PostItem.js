@@ -36,8 +36,6 @@ class PostItem extends Component {
   
   alreadysavedposts(id){
     const { profile } = this.props;
-    console.log("in alreadylikedposts profile "+JSON.stringify(Object.keys(profile)));
-    console.log("in profile "+JSON.stringify(Object.keys(profile.profile)));
 
     const bookmarkpostids = profile.profile.bookmarks.map(item => item.POSTID);
     if(bookmarkpostids.filter(bookmarkpostid=> bookmarkpostid === id).length>0){

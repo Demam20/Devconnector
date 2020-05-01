@@ -37,10 +37,8 @@ class Profiles extends Component {
         //tempfollowingID will contain the following array IDs of the the loggedin user(owner)
         
         let intersection = tempProfileId.filter(x => tempfollowingId.includes(x));
-        //console.log(intersection)
         //intersection means the user is already following these profiles so the button should say unfollow for these profiles
         let difference = tempProfileId.filter(x => !tempfollowingId.includes(x));
-        //console.log(difference)
         //difference means the user is not following these profiles so the button should say follow for these profiles
         
         profileItems= 

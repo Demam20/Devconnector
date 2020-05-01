@@ -11,7 +11,6 @@ import Navbar from '../layout/Navbar';
 class Posts extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
-    console.log("proile loaded");
     this.props.getPosts();
     
   }

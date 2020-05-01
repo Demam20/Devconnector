@@ -62,7 +62,6 @@ class ProfileActions extends Component {
     const { profile } = this.props.profile
     const post = this.props.post.posts
     
-    //console.log("user ID:" + user.id)
     
     var postsCount = post.filter(item => item.user === user.id).length
     var followingCount = profile.youFollowing.length
@@ -70,7 +69,6 @@ class ProfileActions extends Component {
     
 //all bookmarks
      const bookmarkpostid = profile.bookmarks.map(item => item.POSTID);
-     //console.log("bookmarks " +JSON.stringify(bookmarkpostid));
 
     var displaypost =[];
     for(let itempost of post) {
@@ -104,12 +102,7 @@ class ProfileActions extends Component {
         </div>
       </div>
   ))
-    // console.log("mypost" + JSON.stringify(myposts.length));
-    // console.log("display post" + JSON.stringify(displaypost.length));
     
-    // let postContent = <PostFeed posts={displaypost} showActions={false} />;
-    
-    // let mypostcontent = <PostFeed posts={myposts} showActions={false}/>;
     
     return (
       <div>

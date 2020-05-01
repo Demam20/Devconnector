@@ -84,10 +84,8 @@ router.post('/unlike/:id', passport.authenticate('jwt', { session: false }),
     Profile.findOne({ user: req.user.id })
     
       .then(profile => {
-        console.log("found" + profile);
         Post.findById(req.params.id)
           .then(post => {
-            console.log("found" + post);
             if (
               post.likes.filter(like => like.user.toString() === req.user.id).length === 0
             ) {
@@ -127,14 +125,12 @@ router.post('/comment/:id', passport.authenticate('jwt', { session: false }),
     //find post to add comment
     Post.findById(req.params.id)
       .then(post => {
-        console.log("post id" + req.params.id);
         const newComment = {
           text: req.body.text,
           avatar: req.body.avatar,
           name: req.body.name,
           user: req.user.id
         };
-        console.log("inside comment");
         post.comments.unshift(newComment);
 
         //save comment
@@ -191,7 +187,6 @@ router.delete(
 // });
 
 router.get('/', (req, res) => {
-  console.log("in getposts route");
   const errors = {}
   Post.find()
       .sort({date:-1})
@@ -210,7 +205,6 @@ router.get('/', (req, res) => {
 // @access  Public
 
 router.get('/:id', (req, res) => {
-  console.log("in getpost route");
   Post.findById(req.params.id)
     .then(post => res.json(post))
     .catch(err => res.status(404).json({ nopostfound: 'No post Found with this ID' }));
@@ -227,11 +221,8 @@ passport.authenticate('jwt',{session:false})
     Profile.findOne({UserID:req.user.id})
     
     .then(profile => {
-      //console.log("Posts::bookmark found profile" + profile);
            Post.findById(req.params.id)
            .then(post => {
-             console.log("parameter id given in route" + req.params.id);
-            console.log("found" + post);
 
             if (
               //checking if user already saved the post
@@ -242,8 +233,6 @@ passport.authenticate('jwt',{session:false})
               const bookmarkpost = {};
              if(req.params.id) bookmarkpost.POSTID = req.params.id;
             if(req.params.id) bookmarkpost.imageurl = post.imagepost;
-              console.log("inside bookmark route" + req.params.id)
-             console.log("bookmark content" + JSON.stringify(bookmarkpost));
                const savelist = {bookmarkpost};
              profile.bookmarks.unshift(bookmarkpost);
              profile.save()

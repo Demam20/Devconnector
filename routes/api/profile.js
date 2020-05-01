@@ -86,7 +86,6 @@ router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    console.log(req.user.password)
     const {errors, isValid} = validateProfileInput(req.body)
     //check validation
     if(!isValid) {
@@ -109,14 +108,12 @@ router.post(
     if (req.body.gender) profileFields.Gender = req.body.gender;
     profileFields.SimilarAccountSuggestion = req.body.similaraccountsuggestion;
     
-    //console.log(profileFields)
 
 
     Profile.findOne({ "UserID": req.user.id }).then(profile => {
 
       var promises = [];
       if (profile) {
-        console.log(profile)
         promises.push(Profile.findOneAndUpdate(
           { "UserID": req.user.id },
           { "$set": profileFields },
@@ -124,7 +121,6 @@ router.post(
         ));
 
         if (req.body.avatar) {
-          console.log("found a user")
           promises.push(User.findOneAndUpdate(
             { "_id": req.user.id },
             { "$set": { "avatar": req.body.avatar } },
@@ -189,22 +185,18 @@ router.post(
         return res.status(404).json({ status: "Profile not found" })
       }
       User.findOne({ "_id": req.user.id }).then(userprofile => {
-        console.log(userprofile)
-        console.log(userprofile.password)
         profile.ChangePassword.oldpwd = userprofile.password
         bcrypt.compare(req.body.currentPwd, userprofile.password)
         .then(isMatch => {
           if(!isMatch) return res.status(404).json({ status: "Password is not a match" })
 
           if (isMatch) {
-            //console.log("we are here")
 
             bcrypt.hash(req.body.newpwd, 10, (err, hash) => {
               if (err) {
                 console.error(err)
                 return
               }
-              console.log("this is actual hash " + hash)
               userprofile.password = hash
               userprofile.save()
               profile.ChangePassword.newpwd = hash
@@ -316,24 +308,19 @@ router.get ('/bookmarks/all', passport.authenticate("jwt",{session:false}),
             return res.status(404).json(errors);
     }
     var bookmarkedposts =[];
-    console.log("inside bookmark route" + profile.bookmarks);
     var promises = []
    for(let bookmark of profile.bookmarks) {
-      console.log("inside for loop " + bookmark.POSTID)
       var promise= Post.findById(bookmark.POSTID)
       .then( post =>{
       if(!post){
-          //console.log("got empty post");
           bookmarkedposts.push({postid: bookmark.POSTID, status: "post has been deleted"});
         }
         else
         {
-            //console.log("got post" + JSON.stringify(post));
             bookmarkedposts.push(post);
         }
       })
       promises.push(promise);
-      //console.log("after each loop"+ JSON.stringify(bookmarkedposts));
     }
 
     Promise.all(promises).then(result =>{

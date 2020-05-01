@@ -26,7 +26,6 @@ componentDidMount(){
 }    
   onClick(e) {
     e.preventDefault();
-    console.log(e.target.id)
     
     const data = {
       youFollowing: e.target.id, //This is to update owner's youfollowing array e.target.id contains the profile
@@ -56,8 +55,6 @@ componentDidMount(){
   }
   render(){
     const { profile, intersection, difference } = this.props;
-    // console.log(intersection)
-    // console.log(difference)
     return (
       <div className="card card-body bg-light mb-3">
         <div className="row">

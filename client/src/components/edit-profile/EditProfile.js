@@ -39,9 +39,7 @@ class CreateProfile extends Component {
   }
 
   componentDidMount() {
-    // console.log(this.props.profile.profile["Subscription"].feedbackemails)
-    // console.log("SimilarAccountSuggestion:" + this.props.profile.profile["SimilarAccountSuggestion"]);
-    // console.log("SimilarAccountSuggestion:" + this.props.profile.profile.SimilarAccountSuggestion);
+    
 
     this.props.getCurrentProfile();
     this.setState({
@@ -117,13 +115,11 @@ class CreateProfile extends Component {
   //change password
   onClick(e) {
     e.preventDefault();
-    console.log("u clicked on change password")
     const passwordData = {
       currentPwd: this.state.currentPwd,
       newpwd: this.state.newpwd,
       newpwd2: this.state.newpwd2
     };
-    //console.log(passwordData)
     this.props.changePassword(passwordData)
   }
 //sunscription changes
@@ -136,7 +132,6 @@ class CreateProfile extends Component {
       newsemails: this.state.newsemails,
       smsmessages: this.state.smsmessages
     }
-    //console.log(subscriptionData)
     this.props.updateSubscription(subscriptionData, this.props.history)
 
   }

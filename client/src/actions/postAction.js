@@ -21,7 +21,7 @@ export const addPost = postData => dispatch => {
       })
     )
     .catch(err =>{
-      console.log("in add_post" + JSON.stringify(err));
+      
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
@@ -35,14 +35,14 @@ export const getPosts = () => dispatch => {
   axios
     .get('/api/posts')
     .then(res =>{
-      console.log("getposts");
+      
       dispatch({
         type: GET_POSTS,
         payload: res.data
       })}
     )
     .catch(err =>{
-      console.log("getposts error"+JSON.stringify(err));
+      
       dispatch({
         type: GET_POSTS,
         payload: []
@@ -102,7 +102,7 @@ export const addLike = id => dispatch => {
 
 //Bookmark post 
 export const addbookmark = id => dispatch => {
-  console.log("inside bookmark");
+  
   axios.post (`api/posts/bookmark/${id}`)
   .then(res =>dispatch(getPosts()))
   .catch(err =>

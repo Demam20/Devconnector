@@ -26,7 +26,7 @@ import jwt_decode from 'jwt-decode'
     axios
       .post('/api/profile/changepassword', passwordData)
       .then(res => {
-        console.log(res.data)
+        
         localStorage.removeItem('jwtToken')
         //delete from auth header
         setAuthToken(false)

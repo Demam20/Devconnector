@@ -24,9 +24,10 @@ class Profiles extends Component {
     }else{
                       
       if (profiles.length >0){
-        
+
+        const profilesWithoutLoginProfile = profiles.filter(profile=> profile.UserID !== this.props.auth.user.id)
         const tempfollowingId =[] //to store the youfollowing profile IDs of the owner
-        const tempProfileId = profiles.map(item => item._id) //contains profile IDs of all the profiles
+        const tempProfileId = profilesWithoutLoginProfile.map(item => item._id) //contains profile IDs of all the profiles
         const tempId = profiles.filter(profile=> profile.UserID === this.props.auth.user.id).map(ele => ele.youFollowing)
         tempId.forEach(element => {
           for( var k=0; k<element.length; k++){
@@ -41,9 +42,10 @@ class Profiles extends Component {
         let difference = tempProfileId.filter(x => !tempfollowingId.includes(x));
         //console.log(difference)
         //difference means the user is not following these profiles so the button should say follow for these profiles
-          
+        
         profileItems= 
-        profiles.map(profile =>
+        profilesWithoutLoginProfile 
+        .map(profile =>
           
           (<ProfileItem key={profile._id} profile={profile} intersection={intersection} difference={difference} />) 
         );

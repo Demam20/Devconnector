@@ -89,7 +89,9 @@ class Landing extends Component {
                   <div className="form-group d-flex justify-content-center">
                   <i className="fab fa-facebook-square fa-2x"></i>
                   <button type="button" className="btn btn-link">
+                  <a target="_blank" href="https://www.facebook.com">
                     Login with Facebook
+                  </a>
                   </button>
                   </div>
                   <div className="form-group d-flex justify-content-center">

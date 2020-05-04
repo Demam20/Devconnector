@@ -64,7 +64,7 @@ router.get(
 router.get("/user/:user_id", (req, res) => {
   const errors = {};
 
-  Profile.findOne({ UserID: req.params.user_id })
+  Profile.findOne({ _id: req.params.user_id })
     .then(profile => {
       if (!profile) {
         errors.noprofile = "There is no profile for this user";

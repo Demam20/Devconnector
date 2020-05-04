@@ -84,7 +84,7 @@ componentDidMount(){
                 )}
                 {isEmpty(profile.Email) ? null : <p>{profile.Email}</p>}
             </p>
-            <Link to={`/profile/${profile.UserID}`} className="btn btn-info">
+            <Link to={`/profile/${profile._id}`} className="btn btn-info">
               View Profile
             </Link>
             &nbsp;

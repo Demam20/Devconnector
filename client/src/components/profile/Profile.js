@@ -10,8 +10,9 @@ import { getProfileByUser_id } from '../../actions/profileActions';
 
 class Profile extends Component {
   componentDidMount(){
-    if (this.props.match.params.UserID){
-      this.props.getProfileByUser_id(this.props.match.params.UserID);
+    
+    if (this.props.match.params.user_id){
+      this.props.getProfileByUser_id(this.props.match.params.user_id);
     }
   }
   componentWillReceiveProps(nextProps){

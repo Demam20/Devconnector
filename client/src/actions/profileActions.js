@@ -76,13 +76,16 @@ export const getCurrentProfile = () => dispatch => {
 // Get profile by ID
 export const getProfileByUser_id = user_id => dispatch => {
   dispatch(setProfileLoading());
+  
   axios
-    .get(`/api/profile/:user_id/${user_id}`)
-    .then(res =>
+    .get(`/api/profile/user/${user_id}`)
+    .then(res =>{
+      
       dispatch({
         type: GET_PROFILE,
         payload: res.data
       })
+    }
     )
     .catch(err =>
       dispatch({

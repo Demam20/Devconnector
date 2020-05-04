@@ -9,6 +9,7 @@ import {
   POST_LOADING,
   DELETE_POST
 } from './types';
+import { getCurrentProfile } from './profileActions';
 // Add Post
 export const addPost = postData => dispatch => {
   dispatch(clearErrors());
@@ -104,6 +105,7 @@ export const addLike = id => dispatch => {
 export const addbookmark = id => dispatch => {
   
   axios.post (`api/posts/bookmark/${id}`)
+  .then(res =>dispatch(getCurrentProfile()))
   .then(res =>dispatch(getPosts()))
   .catch(err =>
     dispatch({

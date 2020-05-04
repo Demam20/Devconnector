@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classnames from 'classnames';
-import { Link } from 'react-router-dom';
-import  '../../App.css';
-import { deletePost, addLike, removeLike,addbookmark} from '../../actions/postAction';
-
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import classnames from "classnames";
+import { Link } from "react-router-dom";
+import "../../App.css";
+import {
+  deletePost,
+  addLike,
+  removeLike,
+  addbookmark,
+} from "../../actions/postAction";
 
 class PostItem extends Component {
-  
   onDeleteClick(id) {
     this.props.deletePost(id);
   }
@@ -21,45 +24,45 @@ class PostItem extends Component {
     this.props.removeLike(id);
   }
 
-  onBookmarkClick(id){
+  onBookmarkClick(id) {
     this.props.addbookmark(id);
   }
   findUserLike(likes) {
     const { auth } = this.props;
-    if (likes.filter(like => like.user === auth.user.id).length > 0) {
+    if (likes.filter((like) => like.user === auth.user.id).length > 0) {
       return true;
     } else {
       return false;
     }
   }
 
-  
-  alreadysavedposts(id){
+  alreadysavedposts(id) {
     const { profile } = this.props;
 
-    const bookmarkpostids = profile.profile.bookmarks.map(item => item.POSTID);
-    if(bookmarkpostids.filter(bookmarkpostid=> bookmarkpostid === id).length>0){
+    const bookmarkpostids = profile.profile.bookmarks.map(
+      (item) => item.POSTID
+    );
+    if (
+      bookmarkpostids.filter((bookmarkpostid) => bookmarkpostid === id).length > 0
+    ) {
       return true;
-    } else{
+    } else {
       return false;
     }
   }
 
   render() {
-    
-    const { post, auth, showActions,profile } = this.props;
-    //const { profile } = this.props;
-    //const { bookmarks } = this.props.profile;
+    const { post, auth, showActions } = this.props;
 
+    var alredayboomakrked = this.alreadysavedposts(post._id);
     return (
-     
-        <div className=" card card-body mb-3 postcard ">
+      <div className=" card card-body mb-3 postcard ">
         <div className="row">
           <div className="col-sm-6">
             <Link to="/profile">
               <img
                 className="rounded-circle d-none d-md-block"
-                style={{width: '40px'}}
+                style={{ width: "40px" }}
                 src={post.avatar}
                 alt=""
               />
@@ -68,91 +71,88 @@ class PostItem extends Component {
             <p className="text-top">{post.name}</p>
           </div>
           <div className="col-md-10">
-          <p ><img className="image" src={post.imagepost}    /></p>
-          <br />
-            {/* <p className="lead">{post.imagepost}</p> */}
-            <p className='cardtext'>
-
-            {showActions ? (
-              
-              <span>
-                <button
-                  onClick={this.onLikeClick.bind(this, post._id)}
-                  type="button"
-                  className="btn btn-light mr-1"
-                >
-                  <i
-                    className={classnames('fas fa-thumbs-up', {
-                      'text-info': this.findUserLike(post.likes)
-                    })}
-                  />
-                  <span className="badge badge-light">{post.likes.length}</span>
-                </button>
-                <button
-                  onClick={this.onUnlikeClick.bind(this, post._id)}
-                  type="button"
-                  className="btn btn-light mr-1"
-                >
-                  <i className="text-secondary fas fa-thumbs-down" />
-                </button>
-                
-                
-                <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
-                  Comments
-                </Link>
-                {post.user === auth.user.id ? (
+            <p>
+              <img className="image" src={post.imagepost} />
+            </p>
+            <br />
+            <p className="cardtext">
+              {showActions ? (
+                <span>
                   <button
-                    onClick={this.onDeleteClick.bind(this, post._id)}
+                    onClick={this.onLikeClick.bind(this, post._id)}
                     type="button"
-                    className="btn btn-outline-danger mr-1"
+                    className="btn btn-light mr-1"
                   >
-                    <i className="fas fa-times" />
+                    <i
+                      className={classnames("fas fa-thumbs-up", {
+                        "text-info": this.findUserLike(post.likes),
+                      })}
+                    />
+                    <span className="badge badge-light">
+                      {post.likes.length}
+                    </span>
                   </button>
-                )
-                 : null}
-                 <button
-              onClick={this.onBookmarkClick.bind(this, post._id)}
-               type="button"
-              className="btn btn-light mr-1 "
-            >
-              <i
-                    className={classnames('fas fa-bookmark', {
-                      'text-info': this.alreadysavedposts(post._id)
-                    })}
-                  />
-              
-              
-                </button>
-              </span>
-            ) : null}
-            
-                
+                  <button
+                    onClick={this.onUnlikeClick.bind(this, post._id)}
+                    type="button"
+                    className="btn btn-light mr-1"
+                  >
+                    <i className="text-secondary fas fa-thumbs-down" />
+                  </button>
+
+                  <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
+                    Comments
+                  </Link>
+                  {post.user === auth.user.id ? (
+                    <button
+                      onClick={this.onDeleteClick.bind(this, post._id)}
+                      type="button"
+                      className="btn btn-outline-danger mr-1"
+                    >
+                      <i className="fas fa-times" />
+                    </button>
+                  ) : null}
+                  <button
+                    className={classnames(
+                      alredayboomakrked ? "fas fa-bookmark" : "far fa-bookmark",
+                      {
+                        "text-info": alredayboomakrked,
+                      }
+                    )}
+                    onClick={this.onBookmarkClick.bind(this, post._id)}
+                  ></button>
+                </span>
+              ) : null}
             </p>
           </div>
         </div>
-        </div>
-      
+      </div>
     );
   }
 }
 
 PostItem.defaultProps = {
-  showActions: true
+  showActions: true,
 };
 
 PostItem.propTypes = {
   deletePost: PropTypes.func.isRequired,
   addLike: PropTypes.func.isRequired,
   removeLike: PropTypes.func.isRequired,
-  addbookmark:PropTypes.func.isRequired,
+  addbookmark: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  profile:PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  profile:state.profile
+  profile: state.profile,
 });
 
-export default connect(mapStateToProps, { deletePost, addLike, removeLike,addbookmark}) (PostItem);
+export default connect(mapStateToProps, {
+  deletePost,
+  addLike,
+  removeLike,
+  addbookmark,
+})(PostItem);
